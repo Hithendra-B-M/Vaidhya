@@ -140,7 +140,7 @@ body {
     font-weight: 600;
 }
 .register-link p a:hover{
-    text-decoration: underline;
+    text-decoration:underline;
 }
 .top-right-button-container {
     position: absolute;
@@ -160,5 +160,3 @@ body {
     font-size:medium;
     font-weight:900;
 }
-
-
