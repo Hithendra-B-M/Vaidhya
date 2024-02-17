@@ -8,12 +8,19 @@
     
 }
 
+a{
+    outline: none;  
+}
+
+select{
+    outline: none;
+}
+
 body {
-    display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-     background:url(../images/login_bg.jpg);
+    background:url(../images/login_bg.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -26,6 +33,26 @@ body {
     width: 30px;
     display: block; 
     margin: auto; 
+}
+
+.mid-box{
+    width: 100%;
+    height: 85vh;
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+}
+
+.top-buttons{
+    display: flex;
+
+    width: 100%;
+    height: 15vh;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 2%;
+    padding-inline-end: 50px;
+    
 }
 
 
@@ -112,7 +139,7 @@ body {
     background: #9dede1; 
     border: none;
     outline: none;
-    border-radius: 0px;
+    border-radius: 4px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     font-size: 16px;
@@ -146,17 +173,48 @@ body {
     position: absolute;
     top: 15px;
     right: 20px;
+    
 }
 
 #myButton {
-    padding: 10px; /* Adjust padding as needed */
-    background-color: #0dcaad; /* Button background color */
-    color: #fff; /* Button text color */
+    padding: 12px 20px;
+    background-color: white; /* Button background color */
+    color: #0dcaad; /* Button text color */
     border: none;
-    border-radius: 15px;
+    border-radius: 4px;
     cursor: pointer;
-    height: 60px;
-    width: 120px;
     font-size:medium;
+    font-weight: 500;
+}
+
+#myButton:hover{
     font-weight:900;
+}
+
+#language-select{
+    padding: 12px;
+     /* Adjust padding as needed */
+    background-color: white; /* Button background color */
+    color: #0dcaad; /* Button text color */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size:medium;
+    font-weight: 500;
+}
+
+#language-select:hover{
+    font-weight: 900;
+}
+
+.logo-name{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+}
+
+.logo-img{
+    height: 40px;
 }
