@@ -10,8 +10,8 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from docx import Document
 from datetime import datetime
-import shutil
-import os
+# import shutil
+# import os
 
 config = ConfigParser()
 config.read('config.ini')
@@ -38,25 +38,25 @@ main_username = ""
 
 @app.route('/')
 def login():
-    def empty_directory(directory):
-        shutil.rmtree(directory)
-        os.mkdir(directory)
+    # def empty_directory(directory):
+    #     shutil.rmtree(directory)
+    #     os.mkdir(directory)
 
-    # Example usage:
-    directory_to_empty = 'static/documentsgen'
-    empty_directory(directory_to_empty)
+    # # Example usage:
+    # directory_to_empty = 'static/documentsgen'
+    # empty_directory(directory_to_empty)
 
     return render_template('index.html')
 
 @app.route('/index')
 def index():
-    def empty_directory(directory):
-        shutil.rmtree(directory)
-        os.mkdir(directory)
+    # def empty_directory(directory):
+    #     shutil.rmtree(directory)
+    #     os.mkdir(directory)
 
-    # Example usage:
-    directory_to_empty = 'static/documentsgen'
-    empty_directory(directory_to_empty)
+    # # Example usage:
+    # directory_to_empty = 'static/documentsgen'
+    # empty_directory(directory_to_empty)
     return render_template('index.html')
 
 @app.route('/dashboard')
@@ -97,13 +97,13 @@ def predict2():
 
 @app.route("/doctorLogin")
 def doctorLogin():
-    def empty_directory(directory):
-        shutil.rmtree(directory)
-        os.mkdir(directory)
+    # def empty_directory(directory):
+    #     shutil.rmtree(directory)
+    #     os.mkdir(directory)
 
-    # Example usage:
-    directory_to_empty = 'static/documentsgen'
-    empty_directory(directory_to_empty)
+    # # Example usage:
+    # directory_to_empty = 'static/documentsgen'
+    # empty_directory(directory_to_empty)
     return render_template('doctorLogin.html')
 
 @app.route("/doctordashboard")
