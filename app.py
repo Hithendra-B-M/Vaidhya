@@ -37,25 +37,27 @@ main_username = ""
 
 @app.route('/')
 def login():
-    # def empty_directory(directory):
-    #     shutil.rmtree(directory)
-    #     os.mkdir(directory)
 
-    # # Example usage:
-    # directory_to_empty = 'static/documentsgen'
-    # empty_directory(directory_to_empty)
+    documentsgen_dir = os.path.join(app.root_path, 'static', 'documentsgen')
+    
+    # Iterate over files in the directory and remove them
+    for filename in os.listdir(documentsgen_dir):
+        file_path = os.path.join(documentsgen_dir, filename)
+        if os.path.isfile(file_path):
+            os.remove(file_path)
 
     return render_template('index.html')
 
 @app.route('/index')
 def index():
-    # def empty_directory(directory):
-    #     shutil.rmtree(directory)
-    #     os.mkdir(directory)
+    documentsgen_dir = os.path.join(app.root_path, 'static', 'documentsgen')
+    
+    # Iterate over files in the directory and remove them
+    for filename in os.listdir(documentsgen_dir):
+        file_path = os.path.join(documentsgen_dir, filename)
+        if os.path.isfile(file_path):
+            os.remove(file_path)
 
-    # # Example usage:
-    # directory_to_empty = 'static/documentsgen'
-    # empty_directory(directory_to_empty)
     return render_template('index.html')
 
 @app.route('/dashboard')
@@ -96,6 +98,15 @@ def predict2():
 
 @app.route("/doctorLogin")
 def doctorLogin():
+
+    documentsgen_dir = os.path.join(app.root_path, 'static', 'documentsgen')
+    
+    # Iterate over files in the directory and remove them
+    for filename in os.listdir(documentsgen_dir):
+        file_path = os.path.join(documentsgen_dir, filename)
+        if os.path.isfile(file_path):
+            os.remove(file_path)
+
     return render_template('doctorLogin.html')
 
 @app.route("/doctordashboard")
@@ -333,7 +344,6 @@ def generatereport():
 
     doc = Document('static/documents/patient_report.docx')
 
-    # Replace placeholders with actual data
     for paragraph in doc.paragraphs:
         for key, value in data.items():
             if key in paragraph.text:
@@ -343,7 +353,6 @@ def generatereport():
     documentsgen_dir = os.path.join(app.root_path, 'static', 'documentsgen')
     os.makedirs(documentsgen_dir, exist_ok=True)
 
-    # Construct the absolute path for the temporary Word document
     fname = data["pid"]
     temp_docx_path = os.path.join(documentsgen_dir, f'{fname}.docx')
     doc.save(temp_docx_path)
