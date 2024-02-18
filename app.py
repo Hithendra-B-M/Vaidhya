@@ -37,27 +37,10 @@ main_username = ""
 
 @app.route('/')
 def login():
-
-    documentsgen_dir = os.path.join(app.root_path, 'static', 'documentsgen')
-    
-    # Iterate over files in the directory and remove them
-    for filename in os.listdir(documentsgen_dir):
-        file_path = os.path.join(documentsgen_dir, filename)
-        if os.path.isfile(file_path):
-            os.remove(file_path)
-
     return render_template('index.html')
 
 @app.route('/index')
 def index():
-    documentsgen_dir = os.path.join(app.root_path, 'static', 'documentsgen')
-    
-    # Iterate over files in the directory and remove them
-    for filename in os.listdir(documentsgen_dir):
-        file_path = os.path.join(documentsgen_dir, filename)
-        if os.path.isfile(file_path):
-            os.remove(file_path)
-
     return render_template('index.html')
 
 @app.route('/dashboard')
@@ -98,15 +81,6 @@ def predict2():
 
 @app.route("/doctorLogin")
 def doctorLogin():
-
-    documentsgen_dir = os.path.join(app.root_path, 'static', 'documentsgen')
-    
-    # Iterate over files in the directory and remove them
-    for filename in os.listdir(documentsgen_dir):
-        file_path = os.path.join(documentsgen_dir, filename)
-        if os.path.isfile(file_path):
-            os.remove(file_path)
-
     return render_template('doctorLogin.html')
 
 @app.route("/doctordashboard")
