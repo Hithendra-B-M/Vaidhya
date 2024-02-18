@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=divice-width,intial-scale=1.0" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/doctorLogin.css') }}">
     <link rel="icon" type="image/icon" href="{{ url_for('static', filename='images/logo.ico') }}">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <title>ವೈDHया</title>
@@ -28,12 +28,12 @@
             <option value="ta">Tamil</option>
             <option value="te">Telugu</option>
         </select>
-        <a href="{{ url_for('doctorLogin') }}"><button id="myButton" data-translate>Doctor Login</button></a>
+        <a href="{{ url_for('index') }}"><button id="myButton" data-translate>Patient Login</button></a>
     </div>
 
     <div class="mid-box">
         <div class="wrapper">
-            <form method="POST" action="/loginsuccessfull" onsubmit="return login_fun();">
+            <form method="POST" action="/doctorloginsuccessfull" onsubmit="return login_fun();">
 
                 <div class="logo-name">
                     <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo-img">
@@ -60,7 +60,7 @@
 
     </div>
 
-    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/doctorLogin.js') }}"></script>
 </body>
 
 </html>
