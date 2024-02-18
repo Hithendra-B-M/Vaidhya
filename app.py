@@ -340,7 +340,7 @@ def generatereport():
     fname = data["pid"]
     temp_docx_path = f'static/documentsgen/{fname}.docx'
     doc.save(temp_docx_path)
-    doc.save(f'C:/Users/karth/Downloads/{fname}.docx')
+    # doc.save(f'C:/Users/karth/Downloads/{fname}.docx')
 
     return send_file(temp_docx_path, as_attachment=True)
 
