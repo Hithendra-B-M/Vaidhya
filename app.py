@@ -10,6 +10,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from docx import Document
 from datetime import datetime
+import os
 
 config = ConfigParser()
 config.read('config.ini')
@@ -311,7 +312,6 @@ def fetchpatientdetails():
 
 @app.route('/generatereport', methods=["GET"])
 def generatereport():
-
     name = request.args.get('name')
     pid = request.args.get('pid')
     age = request.args.get('age')
@@ -320,9 +320,7 @@ def generatereport():
     docid = request.args.get('docid')
     docname = request.args.get('docname')
 
-    
-
-    data = {'name': name, 'pid':pid, 'age':age, 'sfeel':sfeel, 'stest':stest, 'docid': docid, 'docname': docname}
+    data = {'name': name, 'pid': pid, 'age': age, 'sfeel': sfeel, 'stest': stest, 'doctor_id': docid, 'doctor_name': docname}
 
     now = datetime.now()
     current_month = str(now.month)
@@ -340,12 +338,17 @@ def generatereport():
         for key, value in data.items():
             if key in paragraph.text:
                 paragraph.text = paragraph.text.replace('{{' + key + '}}', str(value))
-    fname = data["pid"]
-    temp_docx_path = f'static/documentsgen/{fname}.docx'
-    doc.save(temp_docx_path)
-    
-    return send_file(temp_docx_path, as_attachment=True)
 
+    # Ensure the directory exists
+    documentsgen_dir = os.path.join(app.root_path, 'static', 'documentsgen')
+    os.makedirs(documentsgen_dir, exist_ok=True)
+
+    # Construct the absolute path for the temporary Word document
+    fname = data["pid"]
+    temp_docx_path = os.path.join(documentsgen_dir, f'{fname}.docx')
+    doc.save(temp_docx_path)
+
+    return send_file(temp_docx_path, as_attachment=True)
 
 if __name__ == '__main__':
     app.run(debug = True)
