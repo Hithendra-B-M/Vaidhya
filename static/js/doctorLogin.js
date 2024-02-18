@@ -1,47 +1,54 @@
-if (localStorage.getItem('targetedLanguage') != 'en') {
+localStorage.setItem('targetedLanguage', 'en');
 
-    let originalEnglishText = [];
-    let translatedText = [];
+let originalTexts = [];
+let translatedTexts = [];
 
-    // Function to collect text from elements with data-translate attribute during initial page load
-    function collectInitialText() {
-        originalEnglishText = [];
-        document.querySelectorAll('[data-translate]').forEach(element => {
-            originalEnglishText.push(element.textContent);
-        });
-    }
-    collectInitialText();
-
-    function translateAllElements() {
-        const selectedLanguage = localStorage.getItem('targetedLanguage');
-        if (selectedLanguage === 'en') {
-            window.location.reload()
-        }
-        sessionStorage.setItem('targetedLanguage', selectedLanguage);
-        fetch('/translate', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                texts: originalEnglishText,
-                target_lang: selectedLanguage,
-            }),
-        })
-            .then(response => response.json())
-            .then(data => {
-                translatedText = data.translated_texts || [];
-                document.querySelectorAll('[data-translate]').forEach((element, index) => {
-                    element.textContent = translatedText[index] || '';
-                });
-
-            })
-            .catch(error => {
-                console.error('Translation error:', error);
-            });
-    }
-    translateAllElements();
+function collectInitialText() {
+    originalTexts = [];
+    document.querySelectorAll('[data-translate]').forEach(element => {
+        originalTexts.push(element.textContent);
+    });
 }
+
+function translateAllElements() {
+    const selectedLanguage = document.getElementById('language-select').value;
+    localStorage.setItem('targetedLanguage', selectedLanguage)
+
+    // Check if the selected language is the same as the original language (English)
+    if (selectedLanguage == 'en') {
+        window.location.reload();
+        return;
+    }
+
+    fetch('/translate', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            texts: originalTexts,
+            target_lang: selectedLanguage,
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        translatedTexts = data.translated_texts || [];
+        document.querySelectorAll('[data-translate]').forEach((element, index) => {
+            element.textContent = translatedTexts[index] || '';
+        });
+    })
+    .catch(error => {
+        console.error('Translation error:', error);
+    });
+}
+
+document.getElementById('language-select').addEventListener('change', function () {
+    translateAllElements();
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    collectInitialText();
+});
 
 function login_fun() {
     var username = document.getElementById("login-username").value;
