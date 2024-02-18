@@ -65,34 +65,21 @@ function fetchdetails(){
 
 
 function downloadReport(name, pid, age, sfeel, stest, docid, docname) {
+    // Construct the URL with parameters
+    var url = '/generatereport?' +
+        'name=' + encodeURIComponent(name) +
+        '&pid=' + encodeURIComponent(pid) +
+        '&age=' + encodeURIComponent(age) +
+        '&sfeel=' + encodeURIComponent(sfeel) +
+        '&stest=' + encodeURIComponent(stest) +
+        '&docid=' + encodeURIComponent(docid) +
+        '&docname=' + encodeURIComponent(docname);
 
-    var name = name;
-    var pid = pid;
-    var age = age;
-    var sfeel = sfeel;
-    var stest = stest;
-    var docid = docid;
-    var docname = docname;
-
-    // Send data to Flask route
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "/generatereport", true);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            console.log(xhr.responseText);
-        }
-    };
-    var data = JSON.stringify({
-        name: name,
-        pid: pid,
-        age: age,
-        sfeel: sfeel,
-        stest: stest,
-        doctor_name: docname,
-        doctor_id: docid
-    });
-    xhr.send(data);
+    // Redirect the user to the constructed URL
+    window.location.href = url;
 }
+
+
+
 
 

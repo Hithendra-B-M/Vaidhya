@@ -10,8 +10,6 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from docx import Document
 from datetime import datetime
-# import shutil
-# import os
 
 config = ConfigParser()
 config.read('config.ini')
@@ -26,7 +24,7 @@ chatbot_api_url = config['URL']['CHATBOT_URL']
 model = joblib.load('static/models/disease_prediction_model.joblib')
 le_results = joblib.load('static/models/label_encoder_results.joblib')
 
-
+    
 client = MongoClient(config['DATABASE']['STRING'])
 db = client[config['DATABASE']['DATABASE_NAME']]
 collection_login = db[config['DATABASE']['COLLECTION_LOGIN']]
@@ -97,13 +95,6 @@ def predict2():
 
 @app.route("/doctorLogin")
 def doctorLogin():
-    # def empty_directory(directory):
-    #     shutil.rmtree(directory)
-    #     os.mkdir(directory)
-
-    # # Example usage:
-    # directory_to_empty = 'static/documentsgen'
-    # empty_directory(directory_to_empty)
     return render_template('doctorLogin.html')
 
 @app.route("/doctordashboard")
@@ -318,9 +309,21 @@ def fetchpatientdetails():
             else:
                 return render_template("doctordashboard.html", message = message, name = patientname, pid = patientid, age = patientage, sfeel = sfeel, stest = stest, doc_name = doc_name, doc_id = doc_id)
 
-@app.route('/generatereport', methods=["GET", "POST"])
+@app.route('/generatereport', methods=["GET"])
 def generatereport():
-    data = request.json
+
+    name = request.args.get('name')
+    pid = request.args.get('pid')
+    age = request.args.get('age')
+    sfeel = request.args.get('sfeel')
+    stest = request.args.get('stest')
+    docid = request.args.get('docid')
+    docname = request.args.get('docname')
+
+    
+
+    data = {'name': name, 'pid':pid, 'age':age, 'sfeel':sfeel, 'stest':stest, 'docid': docid, 'docname': docname}
+
     now = datetime.now()
     current_month = str(now.month)
     current_date = str(now.day)
@@ -340,9 +343,9 @@ def generatereport():
     fname = data["pid"]
     temp_docx_path = f'static/documentsgen/{fname}.docx'
     doc.save(temp_docx_path)
-    # doc.save(f'C:/Users/karth/Downloads/{fname}.docx')
-
+    
     return send_file(temp_docx_path, as_attachment=True)
+
 
 if __name__ == '__main__':
     app.run(debug = True)

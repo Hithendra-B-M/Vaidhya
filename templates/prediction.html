@@ -35,10 +35,10 @@
       <div class="container">
         <form method="POST" action="/userfeeling" onsubmit="return prediction_fun();">
           <div class="form-group">
-            <input type="text" id="feeling" name="feeling" placeholder="How are you doing today?">
+            <input type="text" id="feeling" name="feeling" data-translate placeholder="How are you doing today?" >
           </div>
           <div class="form-group">
-            <input type="submit" value="Submit">
+            <input type="submit" value="Submit" data-translate>
           </div>
         </form>
       </div>
@@ -52,7 +52,7 @@
           <!-- <input type="text" id="textBox" name="textBox" data-translate> -->
           <!-- <h2 data-translate>{{symptom}}</h2> -->
           <div type="text" id="textBox" name="textBox" class="output-box">
-            <p style="color: rgb(0, 0, 0); font-size: 30px;">{{ symptom }}</p>
+            <p style="color: rgb(0, 0, 0); font-size: 30px;" data-translate>{{ symptom }}</p>
           </div>
         </div>
       </div>

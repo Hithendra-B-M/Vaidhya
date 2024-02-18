@@ -26,13 +26,13 @@
         <div class="statusf">
             <form method="POST" action="/fetchpatientdetails" onsubmit="fetchdetails();">
                 <div class="input-box">
-                    <input type="text" required="required" id="patientid" name="patientid" placeholder="Patient ID"
-                        autocomplete="off">
+                    <input type="text" required="required" id="patientid" name="patientid" data-translate placeholder="Patient ID"
+                        autocomplete="off" data-translate>
 
                 </div>
 
                 <div class="input-box">
-                    <input type="password" required="required" id="key" name="key" placeholder="Key">
+                    <input type="password" required="required" id="key" name="key" data-translate placeholder="Key" >
                 </div>
                 <br>
                 <div>
@@ -42,20 +42,20 @@
         </div>
 
         <div class="statuss">
-            <h1>{{ message }}</h1>
+            <h1 data-translate>{{ message }}</h1>
         </div>
     </div>
 
     <div class="thirddiv">
-        <p>Patient Name: <span> &nbsp; &nbsp;{{ name }} </span></p>
-        <p>Patient ID: <span> &nbsp; &nbsp;{{ pid }}</span></p>
-        <p>Patient Age: <span> &nbsp; &nbsp;{{ age }}</span></p>
-        <p>Patient Symptom Feel: <span> &nbsp; &nbsp;{{ sfeel }}</span></p>
-        <p>Patient Symptom Test: <span> &nbsp; &nbsp;{{ stest }}</span></p>
+        <p data-translate>Patient Name: <span data-translate> &nbsp; &nbsp;{{ name }} </span></p>
+        <p data-translate>Patient ID: <span data-translate> &nbsp; &nbsp;{{ pid }}</span></p>
+        <p data-translate>Patient Age: <span data-translate> &nbsp; &nbsp;{{ age }}</span></p>
+        <p data-translate>Patient Symptom Feel: <span data-translate> &nbsp; &nbsp;{{ sfeel }}</span></p>
+        <p data-translate>Patient Symptom Test: <span data-translate> &nbsp; &nbsp;{{ stest }}</span></p>
 
         <div>
             <button class="report" id="reportbtn"
-                onclick="downloadReport('{{name}}', '{{pid}}', '{{age}}', '{{sfeel}}', '{{stest}}', '{{doc_id}}', '{{doc_name}}')">Download
+                onclick="downloadReport('{{name}}', '{{pid}}', '{{age}}', '{{sfeel}}', '{{stest}}', '{{doc_id}}', '{{doc_name}}')" data-translate>Download
                 Report</button>
         </div>
     </div>
