@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+from flask import Flask, render_template, request, send_file, jsonify
 from pymongo import MongoClient
 import requests
 import joblib
@@ -8,6 +8,10 @@ from openai import OpenAI
 from configparser import ConfigParser
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from docx import Document
+from datetime import datetime
+import shutil
+import os
 
 config = ConfigParser()
 config.read('config.ini')
@@ -26,6 +30,7 @@ le_results = joblib.load('static/models/label_encoder_results.joblib')
 client = MongoClient(config['DATABASE']['STRING'])
 db = client[config['DATABASE']['DATABASE_NAME']]
 collection_login = db[config['DATABASE']['COLLECTION_LOGIN']]
+collection_doctor_login = db[config['DATABASE']['COLLECTION_DOCTOR_LOGIN']]
 collection_data = db[config['DATABASE']['COLLECTION_DATA']]
 
 main_username = ""
@@ -33,7 +38,26 @@ main_username = ""
 
 @app.route('/')
 def login():
-        return render_template('index.html')
+    def empty_directory(directory):
+        shutil.rmtree(directory)
+        os.mkdir(directory)
+
+    # Example usage:
+    directory_to_empty = 'static/documentsgen'
+    empty_directory(directory_to_empty)
+
+    return render_template('index.html')
+
+@app.route('/index')
+def index():
+    def empty_directory(directory):
+        shutil.rmtree(directory)
+        os.mkdir(directory)
+
+    # Example usage:
+    directory_to_empty = 'static/documentsgen'
+    empty_directory(directory_to_empty)
+    return render_template('index.html')
 
 @app.route('/dashboard')
 def dashboard():
@@ -70,6 +94,21 @@ def predic():
 @app.route("/predict2")
 def predict2():
     return render_template('prediction.html')
+
+@app.route("/doctorLogin")
+def doctorLogin():
+    def empty_directory(directory):
+        shutil.rmtree(directory)
+        os.mkdir(directory)
+
+    # Example usage:
+    directory_to_empty = 'static/documentsgen'
+    empty_directory(directory_to_empty)
+    return render_template('doctorLogin.html')
+
+@app.route("/doctordashboard")
+def doctordashboard():
+    return render_template("doctordashboard.html")
 
 @app.route("/emailsent", methods=["POST"])
 def emailsent():
@@ -225,8 +264,86 @@ def userfeeling():
     else:
         return render_template('prediction.html', symptom = None)
 
+@app.route("/doctorloginsuccessfull", methods=["GET", "POST"])
+def validate_doctor_login():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+        print(username, password)
+        required_one = {
+            "_id": username, "password": password
+        }
+        data = collection_doctor_login.find_one(required_one)
+        if data:
+            return render_template('doctordashboard.html')
+        else:
+            return render_template('doctorLogin.html')
+    return render_template('doctorLogin.html')
 
+@app.route('/fetchpatientdetails', methods=["GET", "POST"])
+def fetchpatientdetails():
         
+        patientid =" "
+        patientname =" "
+        patientage =" "
+        sfeel = " "
+        stest = " "
+        message = "Data Not Available"
+        doc_name = " "
+        doc_id = " "
+
+        if request.method == "POST":
+            patientid = request.form["patientid"]
+            key = request.form["key"]
+
+            required_one = {
+                "patientid": patientid,
+                "key": key
+            }
+
+            data = collection_data.find_one(required_one)
+
+            if data:
+                message = "Data Found!"
+                patientid = data["patientid"]
+                patientname = data["patientname"]
+                patientage = data["age"]
+                sfeel = data["symptom-feel"]
+                stest = data["symptom-test"]
+                doc_name = data["doctor_name"]
+                doc_id = data["doctor_id"]
+
+                return render_template("doctordashboard.html", message = message, name = patientname, pid = patientid, age = patientage, sfeel = sfeel, stest = stest, doc_name = doc_name, doc_id = doc_id)
+
+            else:
+                return render_template("doctordashboard.html", message = message, name = patientname, pid = patientid, age = patientage, sfeel = sfeel, stest = stest, doc_name = doc_name, doc_id = doc_id)
+
+@app.route('/generatereport', methods=["GET", "POST"])
+def generatereport():
+    data = request.json
+    now = datetime.now()
+    current_month = str(now.month)
+    current_date = str(now.day)
+    current_year = str(now.year)
+
+    data['DD'] = current_date
+    data['MM'] = current_month
+    data['YYYY'] = current_year
+
+    doc = Document('static/documents/patient_report.docx')
+
+    # Replace placeholders with actual data
+    for paragraph in doc.paragraphs:
+        for key, value in data.items():
+            if key in paragraph.text:
+                paragraph.text = paragraph.text.replace('{{' + key + '}}', str(value))
+    fname = data["pid"]
+    temp_docx_path = f'static/documentsgen/{fname}.docx'
+    doc.save(temp_docx_path)
+    doc.save(f'C:/Users/karth/Downloads/{fname}.docx')
+
+    return send_file(temp_docx_path, as_attachment=True)
+
 if __name__ == '__main__':
     app.run(debug = True)
 
