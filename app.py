@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, send_file, jsonify
+from flask import Flask, render_template, request, send_file, jsonify, redirect, url_for
 from pymongo import MongoClient
 import requests
 import joblib
@@ -16,6 +16,8 @@ config = ConfigParser()
 config.read('config.ini')
 
 app = Flask(__name__)
+
+app.secret_key = config['SECRETS']['APP_SECRET_KEY']
 openai_client = OpenAI(api_key="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")
 
 translate_api_url = config['URL']['TRANSLATE_URL']
@@ -44,6 +46,24 @@ main_doctorname=""
 # main_doctorid=""
 # main_patientid=""
 # main_doctorid=""
+
+ALLOWED_ROUTES = ['/index']
+
+def allowed_route(route):
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            if route in ALLOWED_ROUTES:
+                return func(*args, **kwargs)
+            else:
+                return redirect(url_for('error_404'))
+        wrapper.__name__ = func.__name__
+        return wrapper
+    return decorator
+
+@app.route('/error')
+# @allowed_route('/error')
+def error_404():
+    return render_template('error.html'), 404
 
 @app.route('/')
 def login():

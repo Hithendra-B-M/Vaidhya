@@ -1038,3 +1038,8 @@ hr {
   border: 1px solid white;
   width: auto;
 }
+
+p{
+  margin-top: 25px;
+  text-align: justify;
+}
