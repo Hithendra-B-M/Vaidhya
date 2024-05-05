@@ -9,7 +9,7 @@ from configparser import ConfigParser
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from docx import Document
-from datetime import datetime
+from datetime import datetime, timedelta
 import os
 
 config = ConfigParser()
@@ -28,12 +28,22 @@ le_results = joblib.load('static/models/label_encoder_results.joblib')
     
 client = MongoClient(config['DATABASE']['STRING'])
 db = client[config['DATABASE']['DATABASE_NAME']]
-collection_login = db[config['DATABASE']['COLLECTION_LOGIN']]
-collection_doctor_login = db[config['DATABASE']['COLLECTION_DOCTOR_LOGIN']]
+collection_pl = db[config['DATABASE']['COLLECTION_PATIENT_LOGIN']]
+collection_dl = db[config['DATABASE']['COLLECTION_DOCTOR_LOGIN']]
 collection_data = db[config['DATABASE']['COLLECTION_DATA']]
+collection_as = db[config['DATABASE']['COLLECTION_APPOINTMENT_STATUS']]
+collection_a = db[config['DATABASE']['COLLECTION_APPOINTMENT']]
+collection_pi = db[config['DATABASE']['COLLECTION_PATIENT_INFORMATION']]
+collection_di = db[config['DATABASE']['COLLECTION_DOCTOR_INFORMATION']]
+collection_c = db[config['DATABASE']['COLLECTION_CONSULTATION']]
 
-main_username = ""
-
+main_patientusername = ""
+# main_doctorusername=""
+# main_patientname = ""
+main_doctorname=""
+# main_doctorid=""
+# main_patientid=""
+# main_doctorid=""
 
 @app.route('/')
 def login():
@@ -50,10 +60,6 @@ def dashboard():
 @app.route('/about')
 def about():
     return render_template('about.html')
-
-@app.route('/aboutk')
-def aboutk():
-    return render_template('aboutk.html')
 
 @app.route('/diseasePrediction')
 def diseasePrediction():
@@ -86,6 +92,10 @@ def doctorLogin():
 @app.route("/doctordashboard")
 def doctordashboard():
     return render_template("doctordashboard.html")
+
+@app.route("/appointments")
+def appointments():
+    return render_template("appointment.html")
 
 @app.route("/emailsent", methods=["POST"])
 def emailsent():
@@ -166,12 +176,12 @@ def mcqfun1():
 
     symptom = predictions_decoded[0]
 
-    existing_student = collection_data.find_one({'_id': main_username})
+    existing_student = collection_data.find_one({'_id': main_patientusername})
     if existing_student:
         
         collection_data.update_one(
             
-            {'_id': main_username},
+            {'_id': main_patientusername},
             {'$set': {'symptom-test': symptom}}
         )      
         
@@ -201,10 +211,20 @@ def validate_login():
         required_one = {
             "_id": username, "password": password
         }
-        data = collection_login.find_one(required_one)
+        data = collection_pl.find_one(required_one)
         if data:
-            global main_username
-            main_username = username
+            global main_patientusername, main_doctorname
+            main_patientusername = username
+            try:
+                patient_info = collection_pi.find_one({ 'patient_username' : username})
+                patient_id = patient_info['_id']
+                consultation = collection_c.find_one({ '_id' : patient_id})
+                doctor_id = consultation['doctor_id']
+                doctor_info = collection_di.find_one({'_id' : doctor_id})
+                main_doctorname = doctor_info['doctor_name']
+            except:
+                pass
+
             return render_template('dashboard.html')
         else:
             return render_template('index.html')
@@ -233,7 +253,7 @@ def userfeeling():
             
             collection_data.update_one(
                 
-                {'_id': main_username},
+                {'_id': main_patientusername},
                 {'$set': {'symptom-feel': symptom}}
             )      
 
@@ -250,7 +270,7 @@ def validate_doctor_login():
         required_one = {
             "_id": username, "password": password
         }
-        data = collection_doctor_login.find_one(required_one)
+        data = collection_dl.find_one(required_one)
         if data:
             return render_template('doctordashboard.html')
         else:
@@ -332,6 +352,118 @@ def generatereport():
     doc.save(temp_docx_path)
 
     return send_file(temp_docx_path, as_attachment=True)
+
+@app.route('/appointment')
+def appointment():
+    def get_next_weekdays(start_date, num_days):
+        weekdays = []
+        current_date = start_date
+
+        while len(weekdays) < num_days:
+            current_date += timedelta(days=1)
+            if current_date.weekday() >= 5:
+                current_date += timedelta(days=(7 - current_date.weekday()))
+
+            weekdays.append(current_date)
+
+        return weekdays
+    
+    def get_availability(date):
+        availability = collection_as.find_one({"_id": date})
+        if availability:
+            return availability
+        else:
+            return None
+
+    today = datetime.today()
+    next_weekdays = get_next_weekdays(today, 5)
+    dates = [date.strftime("%d-%m-%Y") for date in next_weekdays]
+
+    dates_with_availability = []
+    print(main_doctorname)
+    for date in dates:
+        availability = get_availability(date)
+        if availability:
+            slots_availability = {key: value for key, value in availability.items() if key != '_id'}
+            dates_with_availability.append((date, slots_availability))
+    return render_template('appointment.html', dates_with_availability=dates_with_availability, doctor_name = main_doctorname)
+
+@app.route('/appointment/submitted',methods=['POST', 'GET'])
+def submit_appointment():
+
+    appointment_data = request.get_json(force=True)  
+
+    name = appointment_data.get('name')
+    pid = appointment_data.get('pid')
+    time_slot = appointment_data.get('timeSlot')
+    mode = appointment_data.get('mode')
+    date = appointment_data.get('dates')
+
+
+    query = {"_id" : date} 
+    newquery = {"$set" : {time_slot : 1}} 
+    collection_as.update_one(query, newquery)
+
+    new_appointment = {
+        "_id" : f"{pid}_{date}_{time_slot}",
+        "name": name,
+        "patient_username": pid,
+        "time_slot": time_slot,
+        "mode" : mode,
+        "date" : date
+    }
+
+    collection_a.insert_one(new_appointment)
+
+
+    sender_email = config['EMAIL']['SENDER_EMAIL']
+    sender_password = config['EMAIL']['SENDER_PASSWORD']
+
+    try:
+        
+        patient_info = collection_pi.find_one({ 'patient_username' : pid})
+        patient_id = patient_info['_id']
+
+        patient_email = patient_info['email']
+
+        consultation = collection_c.find_one({ '_id' : patient_id})
+        doctor_id = consultation['doctor_id']
+        doctor_info = collection_di.find_one({'_id' : doctor_id})
+
+        doctor_email = doctor_info['email']
+
+    except:
+        response_data = {"message": "Something Went Wrong! Try Again"}
+        return jsonify(response_data)        
+
+    subject_p = f"Appointment Confirmation: Your Upcoming Visit with Dr. {doctor_info['doctor_name']}"
+    subject_d = f"Appointment Scheduled: Your Upcoming Visit with Mr. {patient_info['patient_name']}"
+
+    body_p = f"Dear {patient_info['patient_name']},\n\nWe hope this email finds you well.\n\nWe are writing to confirm your scheduled appointment with Dr. {doctor_info['doctor_name']} on {date} between {time_slot} IST.\n\nLocation: {doctor_info['location']}\nAddress: {doctor_info['consultation_address']}\nRoom/Office: {doctor_info['room']}\n\nPlease arrive 10-15 minutes before your scheduled appointment time to complete any necessary paperwork.In case of online mode Papers will be sent via Email.\n\nIf you need to reschedule or cancel your appointment, please let us know at least 24 hours in advance so we can accommodate other patients.\n\nWe look forward to seeing you on {date}. If you have any questions or concerns in the meantime, please don't hesitate to contact us.\n\nBest regards,\nVaidhya."
+
+    body_d = f"Dear Dr. {doctor_info['doctor_name']}\n\nI hope this message finds you well.\n\nThis email is to confirm the upcoming appointment scheduled for {patient_info['patient_name']}, who is {patient_info['age']} years old, with you on {date} between {time_slot}. The appointment will be held in your given location.\n\nPatient Details:\n\nName: {patient_info['patient_name']}\nAge: {patient_info['age']}\nDate: {date}\nTime: {time_slot}\nMode: {mode}\nEmail: {patient_info['email']}\nPh_Nuber: {patient_info['ph_number']}\n\nPlease ensure that all necessary arrangements are made for the appointment.\n\nThank you for your attention to this matter.\n\nBest regards,\nVaidhya."
+
+    message_p = MIMEMultipart()
+    message_p['From'] = sender_email
+    message_p['To'] = patient_email
+    message_p['Subject'] = subject_p
+    message_p.attach(MIMEText(body_p, 'plain'))
+
+    message_d = MIMEMultipart()
+    message_d['From'] = sender_email
+    message_d['To'] = doctor_email
+    message_d['Subject'] = subject_d
+    message_d.attach(MIMEText(body_d, 'plain'))
+
+    with smtplib.SMTP('smtp.gmail.com', 587) as server:
+        server.starttls()
+        server.login(sender_email, sender_password)
+        server.sendmail(sender_email, patient_email, message_p.as_string())
+        server.sendmail(sender_email, doctor_email, message_d.as_string())
+
+
+    response_data = {"message": "Appointment submitted successfully!"}
+    return jsonify(response_data)
 
 if __name__ == '__main__':
     app.run(debug = True)
