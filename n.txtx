@@ -25,3 +25,225 @@
     //     doctor_id: docid
     // });
     // xhr.send(data);
+
+
+
+                            <div class = "chat-box-body-send">
+                            <p data-translate>I am fine how about you?</p>
+                        </div>
+
+
+
+
+
+
+function sendMessage(event) {
+    if (event.key == 'Enter') {
+        var inputElement = document.querySelector('#to-be-sent');
+        var message = inputElement.value.trim();
+
+        if (message !== '') {
+            var chatBody = document.getElementById('chat-box-body');
+            var messageSentDiv = document.createElement('div');
+            messageSentDiv.className = 'chat-box-body-send';
+            messageSentDiv.innerHTML = '<p>' + message + '</p>';
+            chatBody.appendChild(messageSentDiv);
+            inputElement.value = '';
+
+
+            // Create a "Thinking..." message while waiting for the response
+            var messageDiv = document.createElement('div');
+            messageDiv.className = 'chat-box-body-receive'; // Use the same class as received messages
+            paragraph = 'Thinking...';
+
+            var span = document.createElement('span');
+            span.className = 'material-symbols-outlined';
+            span.textContent = 'smart_toy';
+
+            var p = document.createElement('p');
+            p.textContent = paragraph.trim();
+
+            messageDiv.appendChild(span)
+            messageDiv.appendChild(p);
+
+            chatBody.appendChild(messageDiv);
+
+            inputElement.value = '';
+
+            // Scroll to the bottom of the chat box
+            chatBody.scrollTop = chatBody.scrollHeight;
+
+            fetch('/ask', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    question: message,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Remove the "Thinking..." message once the response is received
+                chatBody.removeChild(messageDiv);
+
+                var receivedMessageDiv = document.createElement('div');
+                receivedMessageDiv.className = 'chat-box-body-receive';
+                const regex = /\b\d+\.\s.*?(?=\n|$)/g;
+                var paragraphs = data['answers'].split('\n\n');
+                var pointsList = document.createElement('ul');
+
+                paragraphs.forEach(paragraph => {
+                    if (paragraph.match(regex)) {
+                        var points = paragraph.match(regex);
+                        points.forEach(point => {
+                            var li = document.createElement('li');
+                            li.textContent = point.trim().replace(/^\d+\.\s/, '');
+                            pointsList.appendChild(li);
+                        });
+                    } else {
+                        var span = document.createElement('span');
+                        span.className = 'material-symbols-outlined';
+                        span.textContent = 'smart_toy';
+
+                        // Create a paragraph element
+                        var p = document.createElement('p');
+                        p.textContent = paragraph.trim();
+
+                        // Append the span and paragraph to the receivedMessageDiv
+                        receivedMessageDiv.appendChild(span);
+                        receivedMessageDiv.appendChild(p);
+                    }
+                });
+
+                if (pointsList.childNodes.length > 0) {
+                    receivedMessageDiv.appendChild(pointsList);
+                }
+
+                chatBody.appendChild(receivedMessageDiv);
+
+                // Scroll to the bottom of the chat box after appending the received message
+                chatBody.scrollTop = chatBody.scrollHeight;
+
+                inputElement.value = '';
+            });
+        }
+    }
+}
+
+
+function sendMessageClick() {
+    // var inputElement = document.querySelector('.chat-box-footer input');
+    var inputElement = document.querySelector('#to-be-sent');
+    var message = inputElement.value.trim();
+
+    if (message !== '') {
+        var messageDiv = document.createElement('div');
+        messageDiv.className = 'chat-box-body-send';
+        messageDiv.innerHTML = '<p>' + message + '</p>';
+        var chatBody = document.getElementById('chat-box-body');
+        chatBody.appendChild(messageDiv);
+        inputElement.value = '';
+    }
+    fetch('/ask', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            question: message,
+        }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            var messageDiv = document.createElement('div');
+            messageDiv.className = 'chat-box-body-receive';
+
+            // Regular expression to match lines starting with a number followed by a dot and space
+            const regex = /\b\d+\.\s.*?(?=\n|$)/g;
+
+            var paragraphs = data['answers'].split('\n\n');
+            var pointsList = document.createElement('ul');
+
+            paragraphs.forEach(paragraph => {
+                // Check if the paragraph contains points (lines starting with a number and dot)
+                if (paragraph.match(regex)) {
+                    var points = paragraph.match(regex);
+                    points.forEach(point => {
+                        var li = document.createElement('li');
+                        li.textContent = point.trim().replace(/^\d+\.\s/, ''); // Remove the number and dot
+                        pointsList.appendChild(li);
+                    });
+                } else {
+                    // var p = document.createElement('p');
+                    // p.innerHTML =  '<span class="material-symbols-outlined">smart_toy</span>' +  paragraph.trim();
+                    // messageDiv.appendChild(p);
+                    var span = document.createElement('span');
+                    span.className = 'material-symbols-outlined';
+                    span.textContent = 'smart_toy';
+
+                    // Create a paragraph element
+                    var p = document.createElement('p');
+                    p.textContent = paragraph.trim();
+
+                    // Append the span and paragraph to the messageDiv
+                    messageDiv.appendChild(span);
+                    messageDiv.appendChild(p);
+                }
+            });
+
+            // Append the ordered list to the message div if points are found
+            if (pointsList.childNodes.length > 0) {
+                messageDiv.appendChild(pointsList);
+            }
+
+            var chatBody = document.getElementById('chat-box-body');
+            chatBody.appendChild(messageDiv);
+            inputElement.value = '';
+    })
+}
+
+if (localStorage.getItem('targetedLanguage') != 'en') {
+
+    let originalEnglishText = [];
+    let translatedText = [];
+
+    // Function to collect text from elements with data-translate attribute during initial page load
+    function collectInitialText() {
+        originalEnglishText = [];
+        document.querySelectorAll('[data-translate]').forEach(element => {
+            originalEnglishText.push(element.textContent);
+        });
+    }
+    collectInitialText();
+
+    function translateAllElements() {
+        const selectedLanguage = localStorage.getItem('targetedLanguage');
+        if (selectedLanguage === 'en') {
+            window.location.reload()
+        }
+        sessionStorage.setItem('targetedLanguage', selectedLanguage);
+        fetch('/translate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                texts: originalEnglishText,
+                target_lang: selectedLanguage,
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                translatedText = data.translated_texts || [];
+                document.querySelectorAll('[data-translate]').forEach((element, index) => {
+                    element.textContent = translatedText[index] || '';
+                });
+
+            })
+            .catch(error => {
+                console.error('Translation error:', error);
+            });
+    }
+    translateAllElements();
+}
