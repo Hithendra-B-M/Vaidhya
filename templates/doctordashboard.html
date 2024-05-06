@@ -52,8 +52,8 @@
                 <p data-translate>
                     Manage your medical appointments seamlessly.
                 </p data-translate>
-                <a href="https://bot.dialogflow.com/119833d1-c780-4981-a66e-5fd7286b4597" class="button">
-                    <span data-translate>Get an Appointment </span>
+                <a href="{{url_for('docappointment')}}" class="button">
+                    <span data-translate>Check Appointment</span>
                 </a>
             </div>
         </div>
@@ -61,7 +61,7 @@
 
     </div>
 
-    <script src="{{ url_for('static', filename='js/doctordashboard.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/doctorappointment.js') }}"></script>
 </body>
 
 </html>

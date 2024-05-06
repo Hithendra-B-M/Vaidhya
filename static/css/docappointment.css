@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+a {
+    text-decoration: none;
+}
+
+input:focus {
+    outline: none;
+}
+
+body {
+    background-color: #FDF4F5;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    cursor: default;
+}
+
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #DFCCFB;
+    padding-inline: 20px;
+
+}
+
+
+.navbar a {
+    float: left;
+    display: block;
+    color: #DFCCFB;
+    text-align: center;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+}
+
+
+
+.heading{
+  color: #874CCC;
+}
+
+.heading-1{
+  margin: 2%;
+  color: #FF90BC;
+}
+
+.bttn {
+    background-color: white;
+    color: #B983FF;
+    font-weight: 500;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-left: auto;
+    font-size: medium;
+    font-family: 'Poppins', sans-serif;
+}
+
+.bttn:hover { 
+  font-weight: 900;  
+} 
+
+.main_div {
+    display: flex;
+    justify-content: space-around; /* Adjust as needed */
+    align-items: flex-start; /* Align items at the start of the cross axis */
+    flex-wrap: wrap; /* Allow items to wrap to the next row if there's not enough space */
+}
+
+.logo-name{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+}
+
+.logo-img{
+    height: 40px;
+}
+
+form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: calc(100vh - 90.88px);
+}
+
+.mdiv{
+    width: 35%;
+    height: 80%;
+    background-color: #874CCC;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 25px;
+
+}
+
+.date-input-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.date-input-container input[type="date"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+    text-align: center; /* Center text horizontally within the input field */
+}
+
+#calendarDate{
+    width: 50%;
+}
+
+.checkbox-input-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.time-input-container{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.button-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button{
+    background-color: white;
+    color: #B983FF;
+    font-weight: 500;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: medium;
+    font-family: 'Poppins', sans-serif;
+    width: 50%;
+
+}
+
+button:hover{
+    font-weight: 900;
+}

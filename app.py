@@ -121,6 +121,10 @@ def appointments():
 def patientReport():
     return render_template("patientReport.html")
 
+@app.route("/docappointment")
+def docappointment():
+    return render_template("docappointment.html")
+
 @app.route("/emailsent", methods=["POST"])
 def emailsent():
     if request.method == "POST":
