@@ -148,7 +148,7 @@ form{
     align-items: center;
 }
 
-button{
+.submit{
     background-color: white;
     color: #B983FF;
     font-weight: 500;
@@ -161,6 +161,6 @@ button{
 
 }
 
-button:hover{
+.submit:hover{
     font-weight: 900;
 }
