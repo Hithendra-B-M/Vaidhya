@@ -9,7 +9,7 @@ input:focus {
 }
 
 body {
-    background-image: url('../images/hospital.jpg');
+    background-color: #FEFCF3;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -23,7 +23,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #0cb49b;
+    background: #FDFDBD;
     padding-inline: 20px;
 
 }
@@ -62,7 +62,7 @@ body {
     border: none;
     font-size: 16px;
     padding-left: 20px;
-    border: 1px solid #ebebeb98;
+    border: 1px solid #9D9D9D;
     box-sizing: border-box;
     margin-bottom: 10px;
     font-family: 'Poppins', sans-serif;
@@ -73,7 +73,7 @@ body {
     padding: 10px;
     border-radius: 5px;
     border: none;
-    background-color: #25beaf;
+    background-color: #F9B572;
     color: #fff;
     font-size: 16px;
     font-weight: bold;
@@ -88,9 +88,9 @@ body {
 
 .output-box {
     background-color: white;
+    border: 1px solid #9D9D9D;
     width: 100%;
     border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     padding: 20px 10px 10px 10px;
     height: 180px;
     overflow: auto;
@@ -100,27 +100,28 @@ body {
     font-size: 1.5rem;
     text-align: center;
     font-weight: bold;
+    cursor: default;
 }
 
 .description {
     margin: 2%;
-    color: #004640;
+    color: #333A73;
     font-size: larger;
     font-weight: 500;
 }
 
 .heading{
-  color: #004640;
+  color: #FC4100;
 }
 
 .heading-1{
   margin: 2%;
-  color: #004640;
+  color: #333A73;
 }
 
 button {
     background-color: white;
-    color: #0dcaad;
+    color: #FC4100;
     font-weight: 500;
     border: none;
     border-radius: 5px;
@@ -131,8 +132,7 @@ button {
     font-family: 'Poppins', sans-serif;
 }
 
-button:hover {
-  background-color: #daeeeb;  
+button:hover { 
   font-weight: 900;  
 } 
 

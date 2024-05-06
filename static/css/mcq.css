@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
 body {
-    background-image: url('../images/quiz.jpg'); 
+    background-color: #CAF4FF;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -12,31 +12,28 @@ body {
 
 
 .navbar {
-    background: linear-gradient(to right, rgb(83, 161, 255), rgb(0, 58, 128)); /* Gradient background */
+    background: #A0DEFF;
     overflow: hidden;
     display: flex;
     justify-content: space-between;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
     transition: background 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
 .navbar a {
     float: left;
     display: block;
-    color: #222; /* Darker text color for better contrast */
+    color: #222; 
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-    transition: color 0.3s ease-in-out; /* Smooth color transition */
+    transition: color 0.3s ease-in-out; 
 }
 
 
-/* Your existing styles for .card and .card-footer .btn remain unchanged */
-
-/* Your existing styles remain unchanged */
 
 form {
-    margin: 1% auto; /* Center the form horizontally and add top margin */
+    margin: 1% auto; 
     width: 100%;
     height: auto;
     box-shadow: #000;
@@ -75,29 +72,30 @@ form {
 
 .heading-nav {
     margin-left: 2%;
-    color: #ffffff;
+    color: #3468C0;
     font-size: 1.8em;
     
 }
 
 .heading {
     margin-left: 2%;
-    color: #ffffff;
+    color: #3468C0;
     font-size: 1.8em;
     text-align: center;
     margin-top: 50px;
 }
 
 .question-box {
-    background-color: rgba(96, 149, 255, 0.882);
-    margin-bottom: 20px; /* Add a gap between question boxes */
+    background-color: #E0F4FF;
+    margin-bottom: 20px; 
     border-radius: 15px;
     padding: 2%;
-    color: white;
+    color: #3468C0;
     font-size: 18px;
     width: 40%;
     height: 730px;
     margin: 50px;
+    border: 1px solid #3468C0;
 }
 
 .hor-question-box{
@@ -147,3 +145,4 @@ button:hover{
 .logo-img{
     height: 40px;
 }
+

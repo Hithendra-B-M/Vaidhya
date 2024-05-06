@@ -10,7 +10,7 @@ input:focus{
 }
 
 body {
-  background-image: url('../images/quiz.jpg');
+  background-color: #E1F2FB;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -25,7 +25,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(to right, rgb(83, 161, 255), rgb(0, 58, 128));
+  background: #A0DEFF;;
   padding: 2px 20px;
 }
 
@@ -64,11 +64,12 @@ body {
     font-size: 1.5rem;
     text-align: center;
     font-weight: bold;
+    margin-top: 20px;
 }
 
 .heading {
   margin-left: 2%;
-  color: white;
+  color: #3468C0;
   font-size: 1.8em;
 }
 

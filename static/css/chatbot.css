@@ -4,7 +4,7 @@ body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #ecf7fd;
+    background-color: #FFFEEC;
 }
 
 .chat-container {
@@ -26,8 +26,8 @@ body {
 } */
 
 .left-part{
-    background-color: #B4E4FF;
-    border-right: 3px solid rgb(0, 0, 46);
+    background-color: #FFFEEC;
+    border-right: 3px solid #000000;
     width: 20rem;
     color: black;
     height: 89vh;
@@ -54,8 +54,8 @@ body {
 }
 
 .chat-box-header {
-    background-color: #3498db;
-    color: #fff;
+    background-color: #FFD3B5;
+    color: #000000;
     padding: 15px;
     height: 3rem;
     display: flex;
@@ -150,7 +150,7 @@ body {
     height: 32px;
     width: 32px;
     color: #fff;
-    background: #3498db;
+    background: #C84361;
     text-align: center; /* IMP*/
     line-height: 32px; /* IMP*/
     border-radius: 4px; /* IMP*/
@@ -161,7 +161,7 @@ body {
 .chat-box-body-send span{
     height: 32px;
     width: 32px;
-    color: #3498db;
+    color: #C84361;
     background: #edecec;
     text-align: center; /* IMP*/
     line-height: 32px; /* IMP*/
@@ -174,7 +174,7 @@ body {
     height: 32px;
     width: 32px;
     color: #fff;
-    background: #3498db;
+    background: #C84361;
     text-align: center; /* IMP*/
     line-height: 32px; /* IMP*/
     border-radius: 4px; /* IMP*/
@@ -185,7 +185,7 @@ body {
 }
 
 .chat-box-body-send p{
-    background-color: #3498db;
+    background-color: #C84361;
     padding: 12px 16px;
     border-radius: 10px 10px 0 10px;
     font-size: 0.95rem;
@@ -236,14 +236,13 @@ body {
 .chat-box-footer i.send {
     cursor: pointer;
     font-size: 20px;
-    color: #3498db;
+    color: #C84361;
     border: none;
 }
 
 .navbar {
-    background: linear-gradient(to right, #006aff, #030064);
+    background: #FFAAA6;
     overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -266,13 +265,13 @@ body {
 
 .heading {
     margin-left: 2%;
-    color: #ceefff;
+    color: #C84361;
     font-size: 1.8em;
 }
 
 button {
     background-color: white;
-    color: #40A2E3;
+    color: #C84361;
     font-weight: 500;
     border: none;
     border-radius: 5px;

@@ -8,8 +8,7 @@ body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f5f5f5;
-    background-image: url('../images/26800.jpg'); /* Replace with your background image */
+    background-color: #FAF7F0;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -24,9 +23,8 @@ body {
 }
 
 .card {
-    background: linear-gradient(to bottom, #006aff, #030064);
+    background: #4BAEA0;
     border-radius: 10px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
     color: #fff;
     padding: 20px;
     width: 300px;
@@ -37,13 +35,14 @@ body {
 
 .card:hover {
     transform: scale(1.05);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
-    background: linear-gradient(to bottom, #247fff, #151269);
+    background: #056676;
+    color: #012d56;
+
 }
 
 .heading {
     margin-left: 2%;
-    color: #ceefff;
+    color: #4BAEA0;
     font-size: 1.8em;
 }
 
@@ -52,21 +51,21 @@ h2 {
     font-size: 1.5em;
 }
 
+/* h2:hover{
+    color: #012d56;
+} */
+
 p {
     color: #f0f0f0;
     margin-top: 5%;
 }
 
-/* navbar.css */
-
-/* navbar.css */
 
 .navbar {
-    background: linear-gradient(to right, #006aff, #030064); /* Gradient background */
+    background: #B6E6BD; /* Gradient background */
     overflow: hidden;
     display: flex;
     justify-content: space-between;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
     transition: background 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
@@ -74,7 +73,7 @@ p {
 .navbar a {
     float: left;
     display: block;
-    color: #ffffff; /* Darker text color for better contrast */
+    color: #4BAEA0; /* Darker text color for better contrast */
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
@@ -91,15 +90,17 @@ p {
     
 }
 .dashboard-intro{
-    margin-left: 2%;
+    margin-inline: 10%;
     color: #012d56;
     font-size: 1.2em;
     font-weight: 700;
+    text-align: justify;
+
 }
 
 button{
     background-color: white;
-    color: #40A2E3;
+    color: #4BAEA0;
     border: none;
     border-radius: 4px;
     padding: 10px 20px;
