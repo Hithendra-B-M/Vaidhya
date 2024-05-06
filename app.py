@@ -117,6 +117,10 @@ def doctordashboard():
 def appointments():
     return render_template("appointment.html")
 
+@app.route("/patientReport")
+def patientReport():
+    return render_template("patientReport.html")
+
 @app.route("/emailsent", methods=["POST"])
 def emailsent():
     if request.method == "POST":
@@ -255,28 +259,31 @@ def userfeeling():
     if request.method == "POST":
         userfeeling = request.form["feeling"]
 
+        try:
+            completion = openai_client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": "system", "content": "Consider the given feeling, analyze it and classify it into one of these categories: None, Depression, Anxiety Disorders, Schizophrenia, Bipolar Disorder, Obsessive-Compulsive Disorder (OCD), and Post-Traumatic Stress Disorder (PTSD). Give me only the name of the label, not the explanation."},
+                    {"role": "user", "content": userfeeling}
+                ]
+            )
 
-        completion = openai_client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": "Consider the given feeling, analyze it and classify it into one of these categories: None, Depression, Anxiety Disorders, Schizophrenia, Bipolar Disorder, Obsessive-Compulsive Disorder (OCD), and Post-Traumatic Stress Disorder (PTSD). Give me only the name of the label, not the explanation."},
-                {"role": "user", "content": userfeeling}
-            ]
-        )
-
-        symptom = completion.choices[0].message.content
-        print(symptom)
+            symptom = completion.choices[0].message.content
+            print(symptom)
 
 
-        existing_student = collection_data.find_one({'_id': 'karthik'})
-        if existing_student:
-            
-            collection_data.update_one(
+            existing_student = collection_data.find_one({'_id': 'karthik'})
+            if existing_student:
                 
-                {'_id': main_patientusername},
-                {'$set': {'symptom-feel': symptom}}
-            )      
-
+                collection_data.update_one(
+                    
+                    {'_id': main_patientusername},
+                    {'$set': {'symptom-feel': symptom}}
+                )      
+        
+        except:
+            return render_template('prediction.html', symptom = "Error 429!")
+        
         return render_template('prediction.html', symptom = symptom)
     else:
         return render_template('prediction.html', symptom = None)
@@ -330,10 +337,10 @@ def fetchpatientdetails():
                 doc_name = data["doctor_name"]
                 doc_id = data["doctor_id"]
 
-                return render_template("doctordashboard.html", message = message, name = patientname, pid = patientid, age = patientage, sfeel = sfeel, stest = stest, doc_name = doc_name, doc_id = doc_id)
+                return render_template("patientReport.html", message = message, name = patientname, pid = patientid, age = patientage, sfeel = sfeel, stest = stest, doc_name = doc_name, doc_id = doc_id)
 
             else:
-                return render_template("doctordashboard.html", message = message, name = patientname, pid = patientid, age = patientage, sfeel = sfeel, stest = stest, doc_name = doc_name, doc_id = doc_id)
+                return render_template("patientReport.html", message = message, name = patientname, pid = patientid, age = patientage, sfeel = sfeel, stest = stest, doc_name = doc_name, doc_id = doc_id)
 
 @app.route('/generatereport', methods=["GET"])
 def generatereport():

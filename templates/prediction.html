@@ -52,7 +52,13 @@
           <!-- <input type="text" id="textBox" name="textBox" data-translate> -->
           <!-- <h2 data-translate>{{symptom}}</h2> -->
           <div type="text" id="textBox" name="textBox" class="output-box">
+            {% if not symptom  %}
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo-out">
+            {% elif symptom == "Error 429!" %}
+            <p style="color: rgb(0, 0, 0); font-size: 30px;" data-translate>Error 429!</p>
+            {% else %}
             <p style="color: rgb(0, 0, 0); font-size: 30px;" data-translate>{{ symptom }}</p>
+            {% endif %}
           </div>
         </div>
       </div>
