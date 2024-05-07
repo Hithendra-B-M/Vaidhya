@@ -553,6 +553,14 @@ def submit_docappointment():
         response_data = {"message": "Something Went Wrong!"}
         return jsonify(response_data)
 
+@app.route("/forgotpassword/datafound", methods=['POST', 'GET'])
+def forgotpassworddatafound():
+    username = request.form["login-username"] #take name entity
+    
+    if collection_pl.find_one({'_id': username}) or collection_pl.find_one({'email': username}):
+        return render_template("otp.html")
+    else:
+        return render_template("forgotpassword.html", message="Invalid Credentials")
     
 
 if __name__ == '__main__':
