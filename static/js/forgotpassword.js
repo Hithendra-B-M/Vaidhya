@@ -45,6 +45,6 @@ if (localStorage.getItem('targetedLanguage') != 'en') {
 
 function forgot() {
     var username_email = document.getElementById("login-username").value;
-    alert(username_email)
+    
     return true;
 }

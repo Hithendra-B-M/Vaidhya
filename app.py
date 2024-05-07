@@ -9,8 +9,9 @@ from configparser import ConfigParser
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from docx import Document
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import os
+import random
 
 config = ConfigParser()
 config.read('config.ini')
@@ -38,6 +39,7 @@ collection_a = db[config['DATABASE']['COLLECTION_APPOINTMENT']]
 collection_pi = db[config['DATABASE']['COLLECTION_PATIENT_INFORMATION']]
 collection_di = db[config['DATABASE']['COLLECTION_DOCTOR_INFORMATION']]
 collection_c = db[config['DATABASE']['COLLECTION_CONSULTATION']]
+collection_o = db[config['DATABASE']['OTP']]
 
 main_patientusername = ""
 # main_doctorusername=""
@@ -128,6 +130,10 @@ def docappointment():
 @app.route("/forgotpassword")
 def forgotpassword():
     return render_template("forgotpassword.html")
+
+@app.route("/otp")
+def otp():
+    return render_template("otp.html")
 
 @app.route("/emailsent", methods=["POST"])
 def emailsent():
@@ -556,11 +562,69 @@ def submit_docappointment():
 @app.route("/forgotpassword/datafound", methods=['POST', 'GET'])
 def forgotpassworddatafound():
     username = request.form["login-username"] #take name entity
-    
+    print(username)
+
     if collection_pl.find_one({'_id': username}) or collection_pl.find_one({'email': username}):
-        return render_template("otp.html")
+        pin = int(''.join(random.choices('0123456789', k=6)))
+
+        if collection_pl.find_one({'_id': username}):
+            data = collection_pl.find_one({'_id': username})
+            email = data['email']
+        else:
+            data = collection_pl.find_one({'email': username})
+            email = data['email']
+
+
+        sender_email = config['EMAIL']['SENDER_EMAIL']
+        sender_password = config['EMAIL']['SENDER_PASSWORD']
+        to_email = email
+        subject = "One Time Password"
+        body = f"Your One Time Password is {pin}.\n\nThe OTP will be valid only for 10 minutes.\n\nRegards,\nVaidhya"
+        message = MIMEMultipart()
+        message['From'] = sender_email
+        message['To'] = to_email
+        message['Subject'] = subject
+        message.attach(MIMEText(body, 'plain'))
+        with smtplib.SMTP('smtp.gmail.com', 587) as server:
+            server.starttls()
+            server.login(sender_email, sender_password)
+            server.sendmail(sender_email, to_email, message.as_string())
+
+        collection_o.create_index("createdAt", expireAfterSeconds=600)
+
+        to_push = {
+            "createdAt": datetime.now(timezone.utc),
+            '_id': email,
+            'otp': pin
+        }
+
+        if collection_o.find_one({'_id': email}):
+            query = {'_id': email} # for recognition and can also use other attribute, since we have used update_one only with first match will be updated.
+            newquery = {"$set" : {"otp" : pin}} # for update
+            collection_o.update_one(query, newquery)
+        else:
+            collection_o.insert_one(to_push)
+        
+        return render_template("otp.html", username_v=username)
     else:
         return render_template("forgotpassword.html", message="Invalid Credentials")
+
+@app.route("/otp/verified", methods=['POST', 'GET'])
+def otpverified():
+    appointment_data = request.get_json()
+    make_data = collection_pl.find_one({"_id": appointment_data['username_valid']})
+    email = make_data['email']
+    make_datax = collection_o.find_one({"_id": email})
+
+    otp_from_mongo = make_datax['otp']
+    print("Hello")
+    print(type(appointment_data['pin']))
+    print(type(otp_from_mongo))
+    if otp_from_mongo == appointment_data['pin']:
+        print("Hellok")
+        return render_template("createpassword.html", username_v=appointment_data['username_valid'])
+    else:
+        return render_template("otp.html", message="Invalid OTP")
     
 
 if __name__ == '__main__':
