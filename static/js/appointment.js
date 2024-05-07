@@ -83,7 +83,6 @@ function appointment_get() {
         "dates": selectedDate
     };
 
-    console.log(data)
 
     fetch('/appointment/submitted', {
         method: 'POST',

@@ -19,7 +19,6 @@ body {
     cursor: default;
 }
 
-
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -29,7 +28,6 @@ body {
 
 }
 
-
 .navbar a {
     float: left;
     display: block;
@@ -38,8 +36,6 @@ body {
     text-decoration: none;
     transition: color 0.3s ease-in-out;
 }
-
-
 
 .heading{
   color: #874CCC;
@@ -96,12 +92,13 @@ form{
 .mdiv{
     width: 35%;
     height: 80%;
-    background-color: #874CCC;
+    background-color: #DFCCFB;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
     row-gap: 25px;
-
+    padding-top: 20px;
+    border: 2px solid #874CCC;
 }
 
 .date-input-container {
@@ -111,8 +108,6 @@ form{
     justify-content: center;
     align-items: center;
 }
-
-
 
 .date-input-container input[type="date"] {
     width: 100%;
@@ -126,6 +121,7 @@ form{
 
 #calendarDate{
     width: 50%;
+    color: #745C97;
 }
 
 .checkbox-input-container{
@@ -150,7 +146,7 @@ form{
 
 .submit{
     background-color: white;
-    color: #B983FF;
+    color: #560764;
     font-weight: 500;
     border: none;
     border-radius: 5px;
@@ -158,9 +154,34 @@ form{
     font-size: medium;
     font-family: 'Poppins', sans-serif;
     width: 50%;
+    margin-top: 20px;
 
 }
 
 .submit:hover{
     font-weight: 900;
+}
+
+h3{
+    margin-inline: 30px;
+    margin-top: 20px;
+    color: #560764;
+}
+
+label{
+    color: #554994;
+}
+
+#timea{
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 6px 12px;
+    margin-left: 10px;
+}
+
+#timeb{
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 6px 12px;
+    margin-left: 10px;
 }

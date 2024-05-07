@@ -125,6 +125,10 @@ def patientReport():
 def docappointment():
     return render_template("docappointment.html")
 
+@app.route("/forgotpassword")
+def forgotpassword():
+    return render_template("forgotpassword.html")
+
 @app.route("/emailsent", methods=["POST"])
 def emailsent():
     if request.method == "POST":
@@ -495,6 +499,61 @@ def submit_appointment():
 
     response_data = {"message": "Appointment submitted successfully!"}
     return jsonify(response_data)
+
+@app.route('/docappointment/submitted',methods=['POST', 'GET'])
+def submit_docappointment():
+    appointment_docdata = request.get_json() 
+    if appointment_docdata:
+        if not appointment_docdata['timeSlots'] and not appointment_docdata['customTimeSlot']:
+                response_data = {"message": "Select Atleast One Time slot!"}
+                return jsonify(response_data)
+        
+        datek = datetime.strptime(appointment_docdata['date'], "%Y-%m-%d")
+        date = datek.strftime("%d-%m-%Y")
+        time_slots = []
+        result={'_id':date}
+
+
+        for time_slot in appointment_docdata.get('timeSlots', []):
+            time_slots.append(time_slot)
+
+        if appointment_docdata['customTimeSlot']:
+            time = appointment_docdata['customTimeSlot']['from'] + " - " + appointment_docdata['customTimeSlot']['to'] + " IST"
+            time_slots.append(time)
+        
+        def check_overlap(time1, time2):
+            start1, end1 = map(lambda x: int(x.split(':')[0])*60 + int(x.split(':')[1].split()[0]), time1.split(' - '))
+            start2, end2 = map(lambda x: int(x.split(':')[0])*60 + int(x.split(':')[1].split()[0]), time2.split(' - '))
+            
+            if start1 <= start2 <= end1 or start1 <= end2 <= end1:
+                return True
+            if start2 <= start1 <= end2 or start2 <= end1 <= end2:
+                return True
+            return False
+        
+        for i in range(len(time_slots)):
+            for j in range(i+1, len(time_slots)):
+                if check_overlap(time_slots[i], time_slots[j]):
+                        response_data = {"message": "Select the Time Slots Such that they don't overlap with each other"}
+                        return jsonify(response_data)
+                
+        for t_s in time_slots:
+            result[t_s] = 0
+            
+        
+        if collection_as.find_one({ '_id' : date}):
+            collection_as.delete_one({ '_id' : date})
+
+        collection_as.insert_one(result)
+
+        response_data = {"message": "Appointments Offerd Successfully!"}
+        return jsonify(response_data)
+        
+    else:
+        response_data = {"message": "Something Went Wrong!"}
+        return jsonify(response_data)
+
+    
 
 if __name__ == '__main__':
     app.run(debug = True)

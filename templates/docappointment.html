@@ -18,7 +18,7 @@
         <a href="{{url_for('doctordashboard')}}"><button class="bttn" data-translate>Dashboard</button></a>
     </div>
 
-    <form action="">
+    <form method="POST" action="/docappointment/submitted" onsubmit="return docappointment_get();">
         <div class="mdiv">
             <div>
                 <div>
