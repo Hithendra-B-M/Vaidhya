@@ -19,11 +19,11 @@
             <form method="POST" action="/otpverified" onsubmit="return otp();">
 
                 <div class="text-name">
-                    <h2>OTP</h2>
+                    <h2 data-translate>OTP</h2>
                 </div>
                 <br>
                 <div>
-                    <h4>Enter OTP</h4>
+                    <h4 data-translate>Enter OTP</h4>
                 </div>
                 <div class="input-box">
                     <input type="number" id="input1" maxlength="1" name="input1"
@@ -43,7 +43,7 @@
                 <br>
                 <button type="submit" class="btn" data-translate>Verify</button><br>
                 {% if message %}
-                <h4 class="h4warning">{{message}}</h4>
+                <h4 class="h4warning" data-translate>{{message}}</h4>
                 {% endif %}
             </form>
         </div>
