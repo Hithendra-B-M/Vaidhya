@@ -43,23 +43,38 @@ if (localStorage.getItem('targetedLanguage') != 'en') {
     translateAllElements();
 }
 
-function otp() {
 
-    var input1 = parseInt(document.getElementById('input1').value) || 0;
-    var input2 = parseInt(document.getElementById('input2').value) || 0;
-    var input3 = parseInt(document.getElementById('input3').value) || 0;
-    var input4 = parseInt(document.getElementById('input4').value) || 0;
-    var input5 = parseInt(document.getElementById('input5').value) || 0;
-    var input6 = parseInt(document.getElementById('input6').value) || 0;
+function cps() {
+
+    var password1 = document.getElementById("password1").value;
+    var password2 = document.getElementById("password2").value;
 
 
+    var data = {
+        "password1": password1,
+        "password2": password2,
+    };
 
+    fetch('createpasswordsuccessfull', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json', 
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => response.json()) 
+    .then(data => {
+        alert(data.message);
+        if (data.message === "Password Changed Successfully !") {
+            window.location.href = '/index';
+        } else {
+            window.location.reload();
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+  
+
+    return false;
 }
-
-
-function handleInput(input, nextInput) {
-    if (input.value.length >= 1) {
-        nextInput.focus();
-    }
-}
-

@@ -16,7 +16,8 @@
 
     <div class="mid-box">
         <div class="wrapper">
-            <form method="POST" action="/otp/verified" onsubmit="return otp('{{ username_v }}');">
+            <form method="POST" action="/otpverified" onsubmit="return otp();">
+
                 <div class="text-name">
                     <h2>OTP</h2>
                 </div>
@@ -25,24 +26,24 @@
                     <h4>Enter OTP</h4>
                 </div>
                 <div class="input-box">
-                    <input type="number" id="input1" maxlength="1"
+                    <input type="number" id="input1" maxlength="1" name="input1"
                         oninput="handleInput(this, document.getElementById('input2'))">
-                    <input type="number" id="input2" maxlength="1"
+                    <input type="number" id="input2" maxlength="1" name="input2"
                         oninput="handleInput(this, document.getElementById('input3'))">
-                    <input type="number" id="input3" maxlength="1"
+                    <input type="number" id="input3" maxlength="1" name="input3"
                         oninput="handleInput(this, document.getElementById('input4'))">
-                    <input type="number" id="input4" maxlength="1"
+                    <input type="number" id="input4" maxlength="1" name="input4"
                         oninput="handleInput(this, document.getElementById('input5'))">
-                    <input type="number" id="input5" maxlength="1"
+                    <input type="number" id="input5" maxlength="1" name="input5"
                         oninput="handleInput(this, document.getElementById('input6'))">
-                    <input type="number" id="input6" maxlength="1"
+                    <input type="number" id="input6" maxlength="1" name="input6"
                         oninput="handleInput(this, document.getElementById('input7'))">
                 </div>
                 <br>
                 <br>
                 <button type="submit" class="btn" data-translate>Verify</button><br>
                 {% if message %}
-                <h4 class="h4warning">Invalid username or email !</h4>
+                <h4 class="h4warning">{{message}}</h4>
                 {% endif %}
             </form>
         </div>

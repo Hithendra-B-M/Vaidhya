@@ -48,6 +48,7 @@ main_doctorname=""
 # main_doctorid=""
 # main_patientid=""
 # main_doctorid=""
+temp_username = ""
 
 ALLOWED_ROUTES = ['/index']
 
@@ -134,6 +135,10 @@ def forgotpassword():
 @app.route("/otp")
 def otp():
     return render_template("otp.html")
+
+@app.route("/createpassword")
+def createpassword():
+    return render_template("createpassword.html")
 
 @app.route("/emailsent", methods=["POST"])
 def emailsent():
@@ -562,7 +567,6 @@ def submit_docappointment():
 @app.route("/forgotpassword/datafound", methods=['POST', 'GET'])
 def forgotpassworddatafound():
     username = request.form["login-username"] #take name entity
-    print(username)
 
     if collection_pl.find_one({'_id': username}) or collection_pl.find_one({'email': username}):
         pin = int(''.join(random.choices('0123456789', k=6)))
@@ -604,28 +608,57 @@ def forgotpassworddatafound():
             collection_o.update_one(query, newquery)
         else:
             collection_o.insert_one(to_push)
+        global temp_username
+        temp_username = username
         
-        return render_template("otp.html", username_v=username)
+        return render_template("otp.html")
     else:
         return render_template("forgotpassword.html", message="Invalid Credentials")
 
-@app.route("/otp/verified", methods=['POST', 'GET'])
+@app.route("/otpverified", methods=['POST', 'GET'])
 def otpverified():
-    appointment_data = request.get_json()
-    make_data = collection_pl.find_one({"_id": appointment_data['username_valid']})
+
+    one = request.form["input1"]
+    two = request.form["input2"]
+    three = request.form["input3"]
+    four = request.form["input4"]
+    five = request.form["input5"]
+    six = request.form["input6"]
+
+    pin = int(one+two+three+four+five+six)
+
+    make_data = collection_pl.find_one({"_id": temp_username})
     email = make_data['email']
     make_datax = collection_o.find_one({"_id": email})
 
     otp_from_mongo = make_datax['otp']
-    print("Hello")
-    print(type(appointment_data['pin']))
-    print(type(otp_from_mongo))
-    if otp_from_mongo == appointment_data['pin']:
-        print("Hellok")
-        return render_template("createpassword.html", username_v=appointment_data['username_valid'])
+    if otp_from_mongo == pin:
+        return render_template("createpassword.html")
     else:
         return render_template("otp.html", message="Invalid OTP")
-    
 
-if __name__ == '__main__':
-    app.run(debug = True)
+@app.route("/createpasswordsuccessfull", methods=['POST', 'GET'])
+def createpasswordsuccessfull():
+    appointment_data = request.get_json()
+
+    password1 = appointment_data['password1']
+    password2 = appointment_data['password2']
+
+    print(password1, password2)
+
+    if password1 != password2:
+        print(password1, password2)
+        return jsonify(message="Password did not match !")
+    else:
+        if collection_pl.find_one({"_id": temp_username}):
+            query = {'_id': temp_username} 
+            new_query = {"$set": {"password": password1}} 
+            collection_pl.update_one(query, new_query)
+            global temp_username
+            temp_username = ""
+            return jsonify(message="Password Changed Successfully !")
+        return render_template('error.html')
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
