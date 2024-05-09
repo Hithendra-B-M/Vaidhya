@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=divice-width,intial-scale=1.0" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/otp.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/docotp.css') }}">
     <link rel="icon" type="image/icon" href="{{ url_for('static', filename='images/logo.ico') }}">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <title>ವೈDHया</title>
@@ -21,7 +21,7 @@
 
     <div class="mid-box">
         <div class="wrapper">
-            <form method="POST" action="/otpverified" onsubmit="return otp();">
+            <form method="POST" action="/docotpverified" onsubmit="return docotp();">
 
                 <div class="text-name">
                     <h2 data-translate>OTP</h2>
@@ -54,7 +54,7 @@
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='js/otp.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/docotp.js') }}"></script>
 </body>
 
 </html>

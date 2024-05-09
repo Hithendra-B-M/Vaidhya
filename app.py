@@ -19,7 +19,7 @@ config.read('config.ini')
 app = Flask(__name__)
 
 app.secret_key = config['SECRETS']['APP_SECRET_KEY']
-openai_client = OpenAI(api_key="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")
+openai_client = OpenAI(api_key = config['OPENAI']['OPENAIAPIKEY'])
 
 translate_api_url = config['URL']['TRANSLATE_URL']
 chatbot_api_url = config['URL']['CHATBOT_URL']
@@ -138,6 +138,18 @@ def otp():
 
 @app.route("/createpassword")
 def createpassword():
+    return render_template("createpassword.html")
+
+@app.route("/docforgotpassword")
+def docforgotpassword():
+    return render_template("docforgotpassword.html")
+
+@app.route("/docotp")
+def docotp():
+    return render_template("docotp.html")
+
+@app.route("/doccreatepassword")
+def doccreatepassword():
     return render_template("createpassword.html")
 
 @app.route("/emailsent", methods=["POST"])
@@ -627,7 +639,7 @@ def otpverified():
 
     pin = int(one+two+three+four+five+six)
 
-    make_data = collection_pl.find_one({"_id": temp_username})
+    make_data = collection_dl.find_one({"_id": temp_username})
     email = make_data['email']
     make_datax = collection_o.find_one({"_id": email})
 
@@ -654,11 +666,102 @@ def createpasswordsuccessfull():
             query = {'_id': temp_username} 
             new_query = {"$set": {"password": password1}} 
             collection_pl.update_one(query, new_query)
-            global temp_username
-            temp_username = ""
             return jsonify(message="Password Changed Successfully !")
         return render_template('error.html')
 
+
+@app.route("/docforgotpassword/docdatafound", methods=['POST', 'GET'])
+def docforgotpassworddatafound():
+    username = request.form["login-username"]
+
+    if collection_dl.find_one({'_id': username}) or collection_dl.find_one({'email': username}):
+        pin = int(''.join(random.choices('0123456789', k=6)))
+
+        if collection_dl.find_one({'_id': username}):
+            data = collection_dl.find_one({'_id': username})
+            email = data['email']
+        else:
+            data = collection_dl.find_one({'email': username})
+            email = data['email']
+
+
+        sender_email = config['EMAIL']['SENDER_EMAIL']
+        sender_password = config['EMAIL']['SENDER_PASSWORD']
+        to_email = email
+        subject = "One Time Password"
+        body = f"Your One Time Password is {pin}.\n\nThe OTP will be valid only for 10 minutes.\n\nRegards,\nVaidhya"
+        message = MIMEMultipart()
+        message['From'] = sender_email
+        message['To'] = to_email
+        message['Subject'] = subject
+        message.attach(MIMEText(body, 'plain'))
+        with smtplib.SMTP('smtp.gmail.com', 587) as server:
+            server.starttls()
+            server.login(sender_email, sender_password)
+            server.sendmail(sender_email, to_email, message.as_string())
+
+        collection_o.create_index("createdAt", expireAfterSeconds=600)
+
+        to_push = {
+            "createdAt": datetime.now(timezone.utc),
+            '_id': email,
+            'otp': pin
+        }
+
+        if collection_o.find_one({'_id': email}):
+            query = {'_id': email} # for recognition and can also use other attribute, since we have used update_one only with first match will be updated.
+            newquery = {"$set" : {"otp" : pin}} # for update
+            collection_o.update_one(query, newquery)
+        else:
+            collection_o.insert_one(to_push)
+        global temp_doc_username
+        temp_doc_username = username
+        
+        return render_template("docotp.html")
+    else:
+        return render_template("docforgotpassword.html", message="Invalid Credentials")
+
+@app.route("/docotpverified", methods=['POST', 'GET'])
+def docotpverified():
+
+    one = request.form["input1"]
+    two = request.form["input2"]
+    three = request.form["input3"]
+    four = request.form["input4"]
+    five = request.form["input5"]
+    six = request.form["input6"]
+
+    pin = int(one+two+three+four+five+six)
+
+    make_data = collection_dl.find_one({"_id": temp_doc_username})
+    email = make_data['email']
+    make_datax = collection_o.find_one({"_id": email})
+
+    otp_from_mongo = make_datax['otp']
+    if otp_from_mongo == pin:
+        return render_template("doccreatepassword.html")
+    else:
+        return render_template("docotp.html", message="Invalid OTP")
+
+@app.route("/doccreatepasswordsuccessfull", methods=['POST', 'GET'])
+def doccreatepasswordsuccessfull():
+    appointment_data = request.get_json()
+
+    password1 = appointment_data['password1']
+    password2 = appointment_data['password2']
+
+    print(password1, password2)
+
+    if password1 != password2:
+        print(password1, password2)
+        return jsonify(message="Password did not match !")
+    else:
+        if collection_dl.find_one({"_id": temp_doc_username}):
+            query = {'_id': temp_doc_username} 
+            new_query = {"$set": {"password": password1}} 
+            collection_dl.update_one(query, new_query)
+            return jsonify(message="Password Changed Successfully !")
+        return render_template('error.html')
 
 if __name__ == "__main__":
     app.run(debug=True)
