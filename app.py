@@ -40,6 +40,7 @@ collection_pi = db[config['DATABASE']['COLLECTION_PATIENT_INFORMATION']]
 collection_di = db[config['DATABASE']['COLLECTION_DOCTOR_INFORMATION']]
 collection_c = db[config['DATABASE']['COLLECTION_CONSULTATION']]
 collection_o = db[config['DATABASE']['OTP']]
+collection_n = db[config['DATABASE']['NUMBERS']]
 
 main_patientusername = ""
 # main_doctorusername=""
@@ -293,7 +294,10 @@ def validate_login():
                 doctor_info = collection_di.find_one({'_id' : doctor_id})
                 main_doctorname = doctor_info['doctor_name']
             except:
-                 return render_template('patientinfo.html')
+                 pass
+            
+            if not collection_pi.find_one({'patient_username': main_patientusername}):
+                return render_template('patientinfo.html')
 
             return render_template('dashboard.html')
         else:
@@ -872,6 +876,54 @@ def createacount():
         collection_pl.insert_one(account)
         return jsonify(message="Account Created Successfully !")
 
+@app.route('/savedetails', methods=['POST', 'GET'])
+def savedetails():
+    appointment_data = request.get_json()
+    date = appointment_data['DOB']
+
+    date_object = datetime.strptime(date, '%Y-%m-%d')
+
+    formatted_date = date_object.strftime('%d-%m-%Y')
+
+    dob_date = datetime.strptime(formatted_date, '%d-%m-%Y')
+    current_date = datetime.now()
+    agek = current_date.year - dob_date.year - ((current_date.month, current_date.day) < (dob_date.month, dob_date.day))
+
+    mongo = collection_n.find_one({'_id':'patient-register-number'})
+    mongox = collection_pl.find_one({'_id':main_patientusername})
+
+    value = mongo['value']
+    query = {'_id': "patient-register-number"} # for recognition and can also use other attribute, since we have used update_one only with first match will be updated.
+    newquery = {"$set" : {"value" : value + 1}} # for update
+    collection_n.update_one(query, newquery)
+
+    p_id = "VP" + str(value+1)
+    patient_username = main_patientusername
+    DOB = str(formatted_date)
+    age = agek
+    address = appointment_data['address']
+    blood_group = appointment_data['bloodgroup']
+    ph_number = appointment_data['contactnumber']
+    email = mongox['email']
+    patient_name = appointment_data['name']
+
+    data = {
+    "_id" : p_id,
+    "patient_username" : patient_username,
+    "DOB" : DOB,
+    "age" : age,
+    "address" : address,
+    "blood_group" : blood_group,
+    "ph_number" : ph_number,
+    "email" : email,
+    "patient_name" : patient_name
+    }
+
+    print(data)
+
+    collection_pi.insert_one(data)
+
+    return jsonify(message="Details Saved successfully!")
 
 if __name__ == "__main__":
     app.run(debug=True)
