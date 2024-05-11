@@ -163,6 +163,10 @@ def newusername():
 def newotp():
     return render_template("newotp.html")
 
+@app.route("/createnewpassword")
+def createnewpassword():
+    return render_template("createnewpassword.html")
+
 @app.route("/emailsent", methods=["POST"])
 def emailsent():
     if request.method == "POST":
@@ -289,7 +293,7 @@ def validate_login():
                 doctor_info = collection_di.find_one({'_id' : doctor_id})
                 main_doctorname = doctor_info['doctor_name']
             except:
-                pass
+                 return render_template('patientinfo.html')
 
             return render_template('dashboard.html')
         else:
@@ -845,11 +849,28 @@ def newotpverified():
         otp_from_mongo = make_datax['otp']
 
         if otp_from_mongo == pin:
-            return render_template("createaccount.html")
+            return render_template("createnewpassword.html")
         else:
             return render_template("otp.html", message="Invalid OTP")
         
-        
+@app.route('/createaccount',methods=['POST', 'GET'])
+def createacount():        
+    appointment_data = request.get_json()
+
+    password1 = appointment_data['password1']
+    password2 = appointment_data['password2']
+
+    if password1 != password2:
+        print(password1, password2)
+        return jsonify(message="Password did not match !")
+    else:
+        account = {
+            '_id':new_username,
+            'email':new_email,
+            'password': password1
+        }
+        collection_pl.insert_one(account)
+        return jsonify(message="Account Created Successfully !")
 
 
 if __name__ == "__main__":
