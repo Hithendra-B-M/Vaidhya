@@ -780,7 +780,16 @@ def chooseusername():
         global new_username
         new_username = username
         return render_template("newemail.html")
-    
+
+@app.route('/chooseemail',methods=['POST', 'GET'])
+def chooseemail():
+    email = request.form["login-username"]
+    if collection_pl.find_one({'email': email}):
+        return render_template("newemail.html", message="email already registered!")
+    else:
+        global new_username
+        new_username = email
+        return render_template("newemail.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
