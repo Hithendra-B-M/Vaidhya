@@ -50,6 +50,8 @@ main_doctorname=""
 # main_doctorid=""
 temp_username = ""
 gemail=""
+new_username=""
+new_email=""
 
 ALLOWED_ROUTES = ['/index']
 
@@ -152,6 +154,10 @@ def docotp():
 @app.route("/doccreatepassword")
 def doccreatepassword():
     return render_template("createpassword.html")
+
+@app.route("/newusername")
+def newusername():
+    return render_template("newusername.html")
 
 @app.route("/emailsent", methods=["POST"])
 def emailsent():
@@ -764,6 +770,17 @@ def doccreatepasswordsuccessfull():
             collection_dl.update_one(query, new_query)
             return jsonify(message="Password Changed Successfully !")
         return render_template('error.html')
+    
+@app.route('/chooseusername',methods=['POST', 'GET'])
+def chooseusername():
+    username = request.form["login-username"]
+    if collection_pl.find_one({'_id': username}):
+        return render_template("newusername.html", message="username alreay exist!")
+    else:
+        global new_username
+        new_username = username
+        return render_template("newemail.html")
+    
 
 if __name__ == "__main__":
     app.run(debug=True)
