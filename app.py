@@ -49,6 +49,7 @@ main_doctorname=""
 # main_patientid=""
 # main_doctorid=""
 temp_username = ""
+gemail=""
 
 ALLOWED_ROUTES = ['/index']
 
@@ -625,7 +626,7 @@ def forgotpassworddatafound():
         
         return render_template("otp.html")
     else:
-        return render_template("forgotpassword.html", message="Invalid Credentials")
+        return render_template("forgotpassword.html", message="Invalid username or email")
 
 @app.route("/otpverified", methods=['POST', 'GET'])
 def otpverified():
@@ -639,8 +640,9 @@ def otpverified():
 
     pin = int(one+two+three+four+five+six)
 
-    make_data = collection_dl.find_one({"_id": temp_username})
+    make_data = collection_pl.find_one({"_id": temp_username})
     email = make_data['email']
+
     make_datax = collection_o.find_one({"_id": email})
 
     otp_from_mongo = make_datax['otp']

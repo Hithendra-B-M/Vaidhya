@@ -101,6 +101,7 @@ body {
     color: #333;
     font-weight: 600;
     transition: 0.3s ease, transform 0.4s ease;
+    margin-bottom: 20px;
 }
 
 .wrapper .btn:hover {
@@ -185,4 +186,22 @@ input[type=number] {
 
 .heading{
     color: #333;
+}
+
+.btn:disabled {
+    cursor: not-allowed; 
+    background: #C7C8CC;
+    transform: none ;
+    transition: none;
+}
+
+.btn:disabled:hover {
+    transform: none ;
+    transition: none;
+    background: #C7C8CC;
+}
+
+.btn:disabled:active {
+    transform: none ;
+    transition: none;
 }

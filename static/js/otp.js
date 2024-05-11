@@ -63,3 +63,39 @@ function handleInput(input, nextInput) {
     }
 }
 
+function reloadWindow() {
+    location.reload();
+}
+
+// Function to format time as MM:SS
+function formatTime(timeInSeconds) {
+    var minutes = Math.floor(timeInSeconds / 60);
+    var seconds = timeInSeconds % 60;
+    return (minutes < 10 ? '0' : '') + minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+}
+
+// Function to update the timer inside the button
+function updateTimer() {
+    var timeLeft = Math.floor((endTime - Date.now()) / 1000);
+    document.getElementById('resendBtn').innerText = formatTime(timeLeft);
+    
+    if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        document.getElementById('resendBtn').innerText = "Resend";
+        document.getElementById('resendBtn').disabled = false;
+    }
+}
+
+// Disable the button on page load
+document.getElementById('resendBtn').disabled = true;
+
+// Set timer for 1 minute and 5 seconds (65,000 milliseconds)
+var endTime = Date.now() + 90000; // 65,000 milliseconds = 1 minute and 5 seconds
+updateTimer();
+var timerInterval = setInterval(updateTimer, 1000); // Update timer every second
+
+// Enable the button after 1 minute and 5 seconds
+setTimeout(function() {
+    document.getElementById('resendBtn').innerText = "Resend";
+    document.getElementById('resendBtn').disabled = false;
+}, 90000);
