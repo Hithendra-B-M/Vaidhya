@@ -159,6 +159,10 @@ def doccreatepassword():
 def newusername():
     return render_template("newusername.html")
 
+@app.route("/newotp")
+def newotp():
+    return render_template("newotp.html")
+
 @app.route("/emailsent", methods=["POST"])
 def emailsent():
     if request.method == "POST":
@@ -787,9 +791,66 @@ def chooseemail():
     if collection_pl.find_one({'email': email}):
         return render_template("newemail.html", message="email already registered!")
     else:
-        global new_username
-        new_username = email
-        return render_template("newemail.html")
+        global new_email
+        new_email = email
+
+        pin = int(''.join(random.choices('0123456789', k=6)))
+
+        sender_email = config['EMAIL']['SENDER_EMAIL']
+        sender_password = config['EMAIL']['SENDER_PASSWORD']
+        to_email = new_email
+        subject = "One Time Password"
+        body = f"Your One Time Password is {pin}.\n\nThe OTP will be valid only for 10 minutes.\n\nRegards,\nVaidhya"
+        message = MIMEMultipart()
+        message['From'] = sender_email
+        message['To'] = to_email
+        message['Subject'] = subject
+        message.attach(MIMEText(body, 'plain'))
+        with smtplib.SMTP('smtp.gmail.com', 587) as server:
+            server.starttls()
+            server.login(sender_email, sender_password)
+            server.sendmail(sender_email, to_email, message.as_string())
+
+        collection_o.create_index("createdAt", expireAfterSeconds=600)
+
+        to_push = {
+            "createdAt": datetime.now(timezone.utc),
+            '_id': new_email,
+            'otp': pin
+        }
+
+        if collection_o.find_one({'_id': new_email}):
+            query = {'_id': new_email} # for recognition and can also use other attribute, since we have used update_one only with first match will be updated.
+            newquery = {"$set" : {"otp" : pin}} # for update
+            collection_o.update_one(query, newquery)
+        else:
+            collection_o.insert_one(to_push)
+
+        return render_template("newotp.html")
+
+@app.route('/newotpverified',methods=['POST', 'GET'])
+def newotpverified():
+        
+        one = request.form["input1"]
+        two = request.form["input2"]
+        three = request.form["input3"]
+        four = request.form["input4"]
+        five = request.form["input5"]
+        six = request.form["input6"]
+
+        pin = int(one+two+three+four+five+six)
+
+        make_datax = collection_o.find_one({"_id": new_email})
+
+        otp_from_mongo = make_datax['otp']
+
+        if otp_from_mongo == pin:
+            return render_template("createaccount.html")
+        else:
+            return render_template("otp.html", message="Invalid OTP")
+        
+        
+
 
 if __name__ == "__main__":
     app.run(debug=True)
