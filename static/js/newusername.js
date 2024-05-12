@@ -44,8 +44,7 @@ if (localStorage.getItem('targetedLanguage') != 'en') {
 }
 
 function chooseusername() {
-    var username = document.getElementById("login-username").value;
-    
+    var username = document.getElementById("login-username").value;    
     return true;
 }
 function chooselogin(){

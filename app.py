@@ -182,13 +182,13 @@ def docnewusername():
 def docnewemail():
     return render_template("docnewemail.html")
 
-# @app.route("/docnewotp")
-# def docnewotp():
-#     return render_template("docnewotp.html")
+@app.route("/docnewotp")
+def docnewotp():
+    return render_template("docnewotp.html")
 
-# @app.route("/doccreatenewpassword")
-# def doccreatenewpassword():
-#     return render_template("doccreatenewpassword.html")
+@app.route("/doccreatenewpassword")
+def doccreatenewpassword():
+    return render_template("doccreatenewpassword.html")
 
 @app.route("/emailsent", methods=["POST"])
 def emailsent():
@@ -869,7 +869,7 @@ def newotpverified():
         six = request.form["input6"]
 
         pin = int(one+two+three+four+five+six)
-
+        print(new_email)
         make_datax = collection_o.find_one({"_id": new_email})
 
         otp_from_mongo = make_datax['otp']
@@ -877,7 +877,7 @@ def newotpverified():
         if otp_from_mongo == pin:
             return render_template("createnewpassword.html")
         else:
-            return render_template("otp.html", message="Invalid OTP")
+            return render_template("newotp.html", message="Invalid OTP")
         
 @app.route('/createaccount',methods=['POST', 'GET'])
 def createacount():        
@@ -964,14 +964,14 @@ def docchooseemail():
     if collection_dl.find_one({'email': email}):
         return render_template("docnewemail.html", message="email already registered!")
     else:
-        global new_email
+        global docnew_email
         docnew_email = email
 
         pin = int(''.join(random.choices('0123456789', k=6)))
 
         sender_email = config['EMAIL']['SENDER_EMAIL']
         sender_password = config['EMAIL']['SENDER_PASSWORD']
-        to_email = docnew_email
+        to_email = email
         subject = "One Time Password"
         body = f"Your One Time Password is {pin}.\n\nThe OTP will be valid only for 10 minutes.\n\nRegards,\nVaidhya"
         message = MIMEMultipart()
@@ -988,18 +988,61 @@ def docchooseemail():
 
         to_push = {
             "createdAt": datetime.now(timezone.utc),
-            '_id': docnew_email,
+            '_id': email,
             'otp': pin
         }
 
-        if collection_o.find_one({'_id': docnew_email}):
-            query = {'_id': new_email} # for recognition and can also use other attribute, since we have used update_one only with first match will be updated.
+        if collection_o.find_one({'_id': email}):
+            query = {'_id': email} # for recognition and can also use other attribute, since we have used update_one only with first match will be updated.
             newquery = {"$set" : {"otp" : pin}} # for update
             collection_o.update_one(query, newquery)
         else:
             collection_o.insert_one(to_push)
 
         return render_template("docnewotp.html")
+
+@app.route('/docnewotpverified',methods=['POST', 'GET'])
+def docnewotpverified():
+        one = request.form["input1"]
+        two = request.form["input2"]
+        three = request.form["input3"]
+        four = request.form["input4"]
+        five = request.form["input5"]
+        six = request.form["input6"]
+
+        pin = int(one+two+three+four+five+six)
+
+        make_datax = collection_o.find_one({"_id": docnew_email})
+
+        otp_from_mongo = make_datax['otp']
+
+        if otp_from_mongo == pin:
+            print("Hello")
+            return render_template("doccreatenewpassword.html")
+        else:
+            return render_template("docnewotp.html", message="Invalid OTP")
+
+@app.route('/doccreateaccount',methods=['POST', 'GET'])
+def doccreateacount(): 
+    print("Hello World")       
+    appointment_data = request.get_json()
+
+    password1 = appointment_data['password1']
+    password2 = appointment_data['password2']
+
+    if password1 != password2:
+        print(password1, password2)
+        return jsonify(message="Password did not match !")
+    else:
+        account = {
+            '_id':docnew_username,
+            'email':docnew_email,
+            'password': password1
+        }
+        collection_dl.insert_one(account)
+        return jsonify(message="Account Created Successfully !")
+    
+
 
 if __name__ == "__main__":
     app.run(debug=True)

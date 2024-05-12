@@ -43,12 +43,38 @@ if (localStorage.getItem('targetedLanguage') != 'en') {
     translateAllElements();
 }
 
-function chooseemail() {
-    var email = document.getElementById("login-username").value;
-    
-    return true;
-}
 
-function chooselogin(){
-window.location.href = "/index";
+function cps() {
+
+    var password1 = document.getElementById("password1").value;
+    var password2 = document.getElementById("password2").value;
+
+
+    var data = {
+        "password1": password1,
+        "password2": password2,
+    };
+
+    fetch('doccreateaccount', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json', 
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => response.json()) 
+    .then(data => {
+        alert(data.message);
+        if (data.message === "Account Created Successfully !") {
+            window.location.href = '/doctorLogin';
+        } else {
+            window.location.reload();
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+  
+
+    return false;
 }
