@@ -43,7 +43,7 @@ collection_o = db[config['DATABASE']['OTP']]
 collection_n = db[config['DATABASE']['NUMBERS']]
 
 main_patientusername = ""
-# main_doctorusername=""
+main_doctorusername=""
 # main_patientname = ""
 main_doctorname=""
 # main_doctorid=""
@@ -371,6 +371,12 @@ def validate_doctor_login():
         }
         data = collection_dl.find_one(required_one)
         if data:
+            global main_doctorusername
+            main_doctorusername = username
+
+            if not collection_di.find_one({'doctor_username': main_doctorusername}):
+                return render_template('doctorinfo.html')
+
             return render_template('doctordashboard.html')
         else:
             return render_template('doctorLogin.html')
@@ -1042,7 +1048,66 @@ def doccreateacount():
         collection_dl.insert_one(account)
         return jsonify(message="Account Created Successfully !")
     
+@app.route('/docsavedetails', methods=['POST', 'GET'])
+def docsavedetails():
+    appointment_data = request.get_json()
+    date = appointment_data['DOB']
 
+    date_object = datetime.strptime(date, '%Y-%m-%d')
+
+    formatted_date = date_object.strftime('%d-%m-%Y')
+
+    dob_date = datetime.strptime(formatted_date, '%d-%m-%Y')
+    current_date = datetime.now()
+    agek = current_date.year - dob_date.year - ((current_date.month, current_date.day) < (dob_date.month, dob_date.day))
+
+    mongo = collection_n.find_one({'_id':'doctor-register-number'})
+    mongox = collection_dl.find_one({'_id':main_doctorusername})
+
+    value = mongo['value']
+    query = {'_id': "doctor-register-number"} # for recognition and can also use other attribute, since we have used update_one only with first match will be updated.
+    newquery = {"$set" : {"value" : value + 1}} # for update
+    collection_n.update_one(query, newquery)
+
+    d_id = "VD" + str(value+1)
+    doctor_username = main_doctorusername
+    DOB = str(formatted_date)
+    age = agek
+    address = appointment_data['address']
+    blood_group = appointment_data['bloodgroup']
+    ph_number = appointment_data['contactnumber']
+    email = mongox['email']
+    doctor_name = appointment_data['name']
+    room = appointment_data['consultancyroomnumber']
+    location = appointment_data['consultancylocation']
+    consultation_address = appointment_data['consultancyaddress']
+    licence_number = appointment_data['licence']
+    aadhar = appointment_data['aadhar']
+
+
+
+
+    data = {
+    "_id" : d_id,
+    "doctor_username" : doctor_username,
+    "DOB" : DOB,
+    "age" : age,
+    "address" : address,
+    "blood_group" : blood_group,
+    "ph_number" : ph_number,
+    "email" : email,
+    "doctor_name" : doctor_name,
+    "room": room,
+    "location":location,
+    "consultation_address" : consultation_address,
+    "licence_number" : licence_number,
+    "aadhar": aadhar
+    }
+
+
+    collection_di.insert_one(data)
+
+    return jsonify(message="Details Saved successfully!")
 
 if __name__ == "__main__":
     app.run(debug=True)
