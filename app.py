@@ -53,6 +53,8 @@ temp_username = ""
 gemail=""
 new_username=""
 new_email=""
+docnew_username=""
+docnew_email=""
 
 ALLOWED_ROUTES = ['/index']
 
@@ -167,6 +169,18 @@ def newotp():
 @app.route("/createnewpassword")
 def createnewpassword():
     return render_template("createnewpassword.html")
+
+@app.route("/docnewusername")
+def docnewusername():
+    return render_template("docnewusername.html")
+
+# @app.route("/docnewotp")
+# def docnewotp():
+#     return render_template("docnewotp.html")
+
+# @app.route("/doccreatenewpassword")
+# def doccreatenewpassword():
+#     return render_template("doccreatenewpassword.html")
 
 @app.route("/emailsent", methods=["POST"])
 def emailsent():
@@ -924,6 +938,17 @@ def savedetails():
     collection_pi.insert_one(data)
 
     return jsonify(message="Details Saved successfully!")
+
+@app.route('/docchooseusername',methods=['POST', 'GET'])
+def docchooseusername():
+    username = request.form["login-username"]
+    if collection_dl.find_one({'_id': username}):
+        return render_template("docnewusername.html", message="username alreay exist!")
+    else:
+        global docnew_username
+        docnew_username = username
+        print(docnew_username)
+        return render_template("docnewemail.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
