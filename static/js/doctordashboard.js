@@ -50,3 +50,8 @@ function logout() {
     // Redirect the user to the index page
     window.location.href = "/doctorLogin";
 }
+
+
+function fetchsave(){
+    window.location.href = "/docaccountinfo";
+}

@@ -974,7 +974,7 @@ def savedetails():
         query = {'patient_username' : main_patientusername}
         newquery = {"$set" : {"DOB" : DOB, "age" : age, "address" : address, "blood_group" : blood_group, "ph_number" : ph_number, "patient_name" : patient_name}} 
         collection_pi.update_one(query, newquery)
-        
+
         return jsonify(message="Data Updated successfully!")
 
 
@@ -1076,69 +1076,110 @@ def doccreateacount():
 @app.route('/docsavedetails', methods=['POST', 'GET'])
 def docsavedetails():
     appointment_data = request.get_json()
-    date = appointment_data['DOB']
 
-    date_object = datetime.strptime(date, '%Y-%m-%d')
+    if not collection_di.find_one({'doctor_username' : main_doctorusername}):
 
-    formatted_date = date_object.strftime('%d-%m-%Y')
+        date = appointment_data['DOB']
 
-    dob_date = datetime.strptime(formatted_date, '%d-%m-%Y')
-    current_date = datetime.now()
-    agek = current_date.year - dob_date.year - ((current_date.month, current_date.day) < (dob_date.month, dob_date.day))
+        date_object = datetime.strptime(date, '%Y-%m-%d')
 
-    mongo = collection_n.find_one({'_id':'doctor-register-number'})
-    mongox = collection_dl.find_one({'_id':main_doctorusername})
+        formatted_date = date_object.strftime('%d-%m-%Y')
 
-    value = mongo['value']
-    query = {'_id': "doctor-register-number"} # for recognition and can also use other attribute, since we have used update_one only with first match will be updated.
-    newquery = {"$set" : {"value" : value + 1}} # for update
-    collection_n.update_one(query, newquery)
+        dob_date = datetime.strptime(formatted_date, '%d-%m-%Y')
+        current_date = datetime.now()
+        agek = current_date.year - dob_date.year - ((current_date.month, current_date.day) < (dob_date.month, dob_date.day))
 
-    d_id = "VD" + str(value+1)
-    doctor_username = main_doctorusername
-    DOB = str(formatted_date)
-    age = agek
-    address = appointment_data['address']
-    blood_group = appointment_data['bloodgroup']
-    ph_number = appointment_data['contactnumber']
-    email = mongox['email']
-    doctor_name = appointment_data['name']
-    room = appointment_data['consultancyroomnumber']
-    location = appointment_data['consultancylocation']
-    consultation_address = appointment_data['consultancyaddress']
-    licence_number = appointment_data['licence']
-    aadhar = appointment_data['aadhar']
+        mongo = collection_n.find_one({'_id':'doctor-register-number'})
+        mongox = collection_dl.find_one({'_id':main_doctorusername})
 
+        value = mongo['value']
+        query = {'_id': "doctor-register-number"}
+        newquery = {"$set" : {"value" : value + 1}}
+        collection_n.update_one(query, newquery)
 
-
-
-    data = {
-    "_id" : d_id,
-    "doctor_username" : doctor_username,
-    "DOB" : DOB,
-    "age" : age,
-    "address" : address,
-    "blood_group" : blood_group,
-    "ph_number" : ph_number,
-    "email" : email,
-    "doctor_name" : doctor_name,
-    "room": room,
-    "location":location,
-    "consultation_address" : consultation_address,
-    "licence_number" : licence_number,
-    "aadhar": aadhar
-    }
+        d_id = "VD" + str(value+1)
+        doctor_username = main_doctorusername
+        DOB = str(formatted_date)
+        age = agek
+        address = appointment_data['address']
+        blood_group = appointment_data['bloodgroup']
+        ph_number = appointment_data['contactnumber']
+        email = mongox['email']
+        doctor_name = appointment_data['name']
+        room = appointment_data['consultancyroomnumber']
+        location = appointment_data['consultancylocation']
+        consultation_address = appointment_data['consultancyaddress']
+        licence_number = appointment_data['licence']
+        aadhar = appointment_data['aadhar']
 
 
-    collection_di.insert_one(data)
 
-    return jsonify(message="Details Saved successfully!")
+
+        data = {
+        "_id" : d_id,
+        "doctor_username" : doctor_username,
+        "DOB" : DOB,
+        "age" : age,
+        "address" : address,
+        "blood_group" : blood_group,
+        "ph_number" : ph_number,
+        "email" : email,
+        "doctor_name" : doctor_name,
+        "room": room,
+        "location":location,
+        "consultation_address" : consultation_address,
+        "licence_number" : licence_number,
+        "aadhar": aadhar
+        }
+
+
+        collection_di.insert_one(data)
+
+        return jsonify(message="Details Saved successfully!")
+    else:
+        date = appointment_data['DOB']
+        date_object = datetime.strptime(date, '%Y-%m-%d')
+        formatted_date = date_object.strftime('%d-%m-%Y')
+        dob_date = datetime.strptime(formatted_date, '%d-%m-%Y')
+        current_date = datetime.now()
+        agek = current_date.year - dob_date.year - ((current_date.month, current_date.day) < (dob_date.month, dob_date.day))
+
+        DOB = str(formatted_date)
+        age = agek
+        address = appointment_data['address']
+        blood_group = appointment_data['bloodgroup']
+        ph_number = appointment_data['contactnumber']
+        doctor_name = appointment_data['name']
+        room = appointment_data['consultancyroomnumber']
+        location = appointment_data['consultancylocation']
+        consultation_address = appointment_data['consultancyaddress']
+        licence_number = appointment_data['licence']
+        aadhar = appointment_data['aadhar']
+
+
+        query = {'doctor_username' : main_doctorusername}
+        newquery = {"$set" : {
+        "DOB" : DOB,
+        "age" : age,
+        "address" : address,
+        "blood_group" : blood_group,
+        "ph_number" : ph_number,
+        "doctor_name" : doctor_name,
+        "room": room,
+        "location":location,
+        "consultation_address" : consultation_address,
+        "licence_number" : licence_number,
+        "aadhar": aadhar
+        }} 
+
+        collection_di.update_one(query, newquery)
+
+        return jsonify(message="Data Updated successfully!")
 
 @app.route('/accountinfo', methods=['POST', 'GET'])
 def accountinfo():
     data = collection_pi.find_one({'patient_username': main_patientusername})
     if data:
-        patient_username = data['patient_username']
         DOBK = data['DOB']
         DOB = datetime.strptime(DOBK, '%d-%m-%Y').strftime('%Y-%m-%d')
         address = data['address']
@@ -1146,7 +1187,30 @@ def accountinfo():
         ph_number = data['ph_number']
         patient_name = data['patient_name']
 
-    return render_template('accountinfo.html', patient_username = patient_username, DOB = DOB, address = address, blood_group = blood_group, ph_number = ph_number, patient_name = patient_name)
+    return render_template('accountinfo.html', DOB = DOB, address = address, blood_group = blood_group, ph_number = ph_number, patient_name = patient_name)
+
+@app.route('/docaccountinfo', methods=['POST', 'GET'])
+def docaccountinfo():
+    data = collection_di.find_one({'doctor_username': main_doctorusername})
+    if data:
+        DOBK = data['DOB']
+        DOB = datetime.strptime(DOBK, '%d-%m-%Y').strftime('%Y-%m-%d')
+        address = data['address']
+        blood_group = data['blood_group']
+        ph_number = data['ph_number']
+        doctor_name = data['doctor_name']
+        aadhar = data['aadhar']
+        licence_number = data['licence_number']
+        consultation_address = data['consultation_address']
+        location = data['location']
+        room = data['room']
+
+        print(DOB)
+        print(doctor_name)
+        print(aadhar)
+
+    return render_template('docaccountinfo.html', DOB = DOB, address = address, blood_group = blood_group, ph_number = ph_number, doctor_name = doctor_name, aadhar = aadhar, licence_number = licence_number, consultation_address = consultation_address, location = location, room = room)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
