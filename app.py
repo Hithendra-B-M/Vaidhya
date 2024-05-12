@@ -166,6 +166,10 @@ def newusername():
 def newotp():
     return render_template("newotp.html")
 
+@app.route('/newemail')
+def newemail():
+    return render_template("newemail.html")
+
 @app.route("/createnewpassword")
 def createnewpassword():
     return render_template("createnewpassword.html")
@@ -173,6 +177,10 @@ def createnewpassword():
 @app.route("/docnewusername")
 def docnewusername():
     return render_template("docnewusername.html")
+
+@app.route('/docnewemail')
+def docnewemail():
+    return render_template("docnewemail.html")
 
 # @app.route("/docnewotp")
 # def docnewotp():
@@ -949,6 +957,49 @@ def docchooseusername():
         docnew_username = username
         print(docnew_username)
         return render_template("docnewemail.html")
+    
+@app.route('/docchooseemail',methods=['POST', 'GET'])
+def docchooseemail():
+    email = request.form["login-username"]
+    if collection_dl.find_one({'email': email}):
+        return render_template("docnewemail.html", message="email already registered!")
+    else:
+        global new_email
+        docnew_email = email
+
+        pin = int(''.join(random.choices('0123456789', k=6)))
+
+        sender_email = config['EMAIL']['SENDER_EMAIL']
+        sender_password = config['EMAIL']['SENDER_PASSWORD']
+        to_email = docnew_email
+        subject = "One Time Password"
+        body = f"Your One Time Password is {pin}.\n\nThe OTP will be valid only for 10 minutes.\n\nRegards,\nVaidhya"
+        message = MIMEMultipart()
+        message['From'] = sender_email
+        message['To'] = to_email
+        message['Subject'] = subject
+        message.attach(MIMEText(body, 'plain'))
+        with smtplib.SMTP('smtp.gmail.com', 587) as server:
+            server.starttls()
+            server.login(sender_email, sender_password)
+            server.sendmail(sender_email, to_email, message.as_string())
+
+        collection_o.create_index("createdAt", expireAfterSeconds=600)
+
+        to_push = {
+            "createdAt": datetime.now(timezone.utc),
+            '_id': docnew_email,
+            'otp': pin
+        }
+
+        if collection_o.find_one({'_id': docnew_email}):
+            query = {'_id': new_email} # for recognition and can also use other attribute, since we have used update_one only with first match will be updated.
+            newquery = {"$set" : {"otp" : pin}} # for update
+            collection_o.update_one(query, newquery)
+        else:
+            collection_o.insert_one(to_push)
+
+        return render_template("docnewotp.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
