@@ -81,8 +81,7 @@ function savedetails() {
         alert(data.message);
         if (data.message === "Details Saved successfully!") {
             window.location.href = '/dashboard';
-        } 
-        else {
+        } else {
             window.location.reload();
         }
     })
@@ -93,3 +92,9 @@ function savedetails() {
 
     return false;
 }
+
+var bloodGroup = document.getElementById('blood-group-value').value;
+if (bloodGroup) {
+    document.getElementById("blood-group").value = bloodGroup;
+}
+

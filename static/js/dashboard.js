@@ -60,3 +60,7 @@ function logout() {
     // Redirect the user to the index page
     window.location.href = "/";
 }
+
+function fetchsave(){
+    window.location.href = "/accountinfo";
+}
