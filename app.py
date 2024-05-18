@@ -74,6 +74,11 @@ def allowed_route(route):
 def error_404():
     return render_template('error.html'), 404
 
+@app.route('/errorfetch')
+# @allowed_route('/error')
+def error_500():
+    return render_template('errorfetch.html'), 500
+
 @app.route('/')
 def login():
     return render_template('index.html')
