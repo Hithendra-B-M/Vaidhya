@@ -4,7 +4,6 @@ import requests
 import joblib
 import smtplib
 import pandas as pd
-from openai import OpenAI
 from configparser import ConfigParser
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -19,10 +18,10 @@ config.read('config.ini')
 app = Flask(__name__)
 
 app.secret_key = config['SECRETS']['APP_SECRET_KEY']
-openai_client = OpenAI(api_key = config['OPENAI']['OPENAIAPIKEY'])
 
 translate_api_url = config['URL']['TRANSLATE_URL']
 chatbot_api_url = config['URL']['CHATBOT_URL']
+feel_api_url = config['URL']['FEEL_URL']
 
 
 model = joblib.load('static/models/disease_prediction_model.joblib')
@@ -337,23 +336,14 @@ def userfeeling():
         userfeeling = request.form["feeling"]
 
         try:
-            completion = openai_client.chat.completions.create(
-                model="gpt-3.5-turbo",
-                messages=[
-                    {"role": "system", "content": "Consider the given feeling, analyze it and classify it into one of these categories: None, Depression, Anxiety Disorders, Schizophrenia, Bipolar Disorder, Obsessive-Compulsive Disorder (OCD), and Post-Traumatic Stress Disorder (PTSD). Give me only the name of the label, not the explanation."},
-                    {"role": "user", "content": userfeeling}
-                ]
-            )
-
-            symptom = completion.choices[0].message.content
-            print(symptom)
-
-
-            existing_student = collection_data.find_one({'_id': 'karthik'})
+            response = requests.post(f"{feel_api_url}/feel_bot", json={'question': userfeeling})
+            if response.status_code == 200:
+                answer = response.json().get('answer')
+            symptom = answer
+            existing_student = collection_data.find_one({'_id': main_patientusername})
             if existing_student:
                 
                 collection_data.update_one(
-                    
                     {'_id': main_patientusername},
                     {'$set': {'symptom-feel': symptom}}
                 )      
