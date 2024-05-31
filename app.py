@@ -223,6 +223,7 @@ def ask():
     response = requests.post(f"{chatbot_api_url}/input_bot", json={'questions': questions})
     if response.status_code == 200:
         answers = response.json().get('answer')
+        print(answers)
         return jsonify({'answers': answers})
     else:
         return jsonify({'error': 'Failed to get answers'})
