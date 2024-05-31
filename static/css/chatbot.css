@@ -299,3 +299,8 @@ button:hover {
 .logo-img{
     height: 40px;
 }
+
+/* Add this CSS rule */
+.chat-box-body-receive p {
+    white-space: pre-wrap;
+}

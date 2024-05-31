@@ -524,15 +524,11 @@ def submit_appointment():
         
         patient_info = collection_pi.find_one({ 'patient_username' : pid})
         patient_id = patient_info['_id']
-
         patient_email = patient_info['email']
-
         consultation = collection_c.find_one({ '_id' : patient_id})
         doctor_id = consultation['doctor_id']
         doctor_info = collection_di.find_one({'_id' : doctor_id})
-
         doctor_email = doctor_info['email']
-
     except:
         response_data = {"message": "Something Went Wrong! Try Again"}
         return jsonify(response_data)        
