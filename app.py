@@ -54,6 +54,7 @@ new_username=""
 new_email=""
 docnew_username=""
 docnew_email=""
+temp_email = ""
 
 ALLOWED_ROUTES = ['/index']
 
@@ -761,18 +762,24 @@ def submit_docappointment():
 def forgotpassworddatafound():
     error = "FPPS1"
     try:
-
         username = request.form["login-username"] #take name entity
 
         if collection_pl.find_one({'_id': username}) or collection_pl.find_one({'email': username}):
             pin = int(''.join(random.choices('0123456789', k=6)))
+            global temp_username
 
             if collection_pl.find_one({'_id': username}):
+                temp_username = username
+                print(temp_username)
                 data = collection_pl.find_one({'_id': username})
                 email = data['email']
             else:
+                global temp_email
+                temp_email = username
+                print(temp_email)
                 data = collection_pl.find_one({'email': username})
                 email = data['email']
+                temp_username = data['_id']
 
 
             sender_email = config['EMAIL']['SENDER_EMAIL']
@@ -804,8 +811,8 @@ def forgotpassworddatafound():
                 collection_o.update_one(query, newquery)
             else:
                 collection_o.insert_one(to_push)
-            global temp_username
-            temp_username = username
+
+
             
             return render_template("otp.html")
         else:
@@ -826,9 +833,9 @@ def otpverified():
 
         pin = int(one+two+three+four+five+six)
 
+
         make_data = collection_pl.find_one({"_id": temp_username})
         email = make_data['email']
-
         make_datax = collection_o.find_one({"_id": email})
 
         otp_from_mongo = make_datax['otp']
@@ -872,14 +879,18 @@ def docforgotpassworddatafound():
 
         if collection_dl.find_one({'_id': username}) or collection_dl.find_one({'email': username}):
             pin = int(''.join(random.choices('0123456789', k=6)))
+            global temp_doc_username
 
             if collection_dl.find_one({'_id': username}):
+                temp_doc_username = username
                 data = collection_dl.find_one({'_id': username})
                 email = data['email']
             else:
+                global temp_email
+                temp_email = username
                 data = collection_dl.find_one({'email': username})
                 email = data['email']
-
+                temp_doc_username = data['_id']
 
             sender_email = config['EMAIL']['SENDER_EMAIL']
             sender_password = config['EMAIL']['SENDER_PASSWORD']
@@ -910,8 +921,6 @@ def docforgotpassworddatafound():
                 collection_o.update_one(query, newquery)
             else:
                 collection_o.insert_one(to_push)
-            global temp_doc_username
-            temp_doc_username = username
             
             return render_template("docotp.html")
         else:
