@@ -55,3 +55,7 @@ function logout() {
 function fetchsave(){
     window.location.href = "/docaccountinfo";
 }
+
+function admin(){
+    window.location.href = "/admin";
+}

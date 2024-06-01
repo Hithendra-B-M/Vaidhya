@@ -22,7 +22,7 @@ if (localStorage.getItem('targetedLanguage') != 'en') {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
-          }, 
+          },
           body: JSON.stringify({
               texts: originalEnglishText,
               target_lang: selectedLanguage,
@@ -43,28 +43,6 @@ if (localStorage.getItem('targetedLanguage') != 'en') {
     translateAllElements();
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    var cards = document.querySelectorAll('.card');
-
-    cards.forEach(function(card) {
-        card.addEventListener('click', function() {
-            this.classList.toggle('selected');
-        });
-    });
-});
-
-function logout() {
-    window.history.pushState({}, '', window.location.href);
-    // Replace the current entry in the history with a new one, pointing to the index page
-    window.history.replaceState({}, '', '/');
-    // Redirect the user to the index page
-    window.location.href = "/";
-}
-
-function fetchsave(){
-    window.location.href = "/accountinfo";
-}
-
-function admin(){
-    window.location.href = "/admin";
+function goBack() {
+    window.history.back();
 }

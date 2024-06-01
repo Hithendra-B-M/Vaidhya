@@ -194,6 +194,10 @@ def docnewotp():
 def doccreatenewpassword():
     return render_template("doccreatenewpassword.html")
 
+@app.route("/admin")
+def admin():
+    return render_template("admin.html")
+
 @app.route("/emailsent", methods=["POST"])
 def emailsent():
     if request.method == "POST":
