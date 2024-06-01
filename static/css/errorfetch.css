@@ -64,8 +64,17 @@ h2 {
 
 .second{
     margin: 50px;
+    margin-top: 70px;
 }
 
 span{
     color: crimson;
+}
+
+video {
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100vw;
+    height: 100%;
 }
