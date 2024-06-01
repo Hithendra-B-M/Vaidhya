@@ -1,4 +1,3 @@
-/* dashboard.css */
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
 a{
@@ -10,7 +9,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: #ecf7fd;
-    background-image: url('../images/ob2.jpg'); /* Replace with your background image */
+    background-image: url('../images/ob2.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -32,9 +31,9 @@ body {
 }
 
 .heading {
-    margin: 0 auto; /* Centers the element horizontally */
+    margin: 0 auto;
     margin-top: 50px;
-    text-align: center; /* Centers the text inside the element */
+    text-align: center;
     color: #EB8242;
     font-size: 2.5em;
     width: 100%;
@@ -42,9 +41,9 @@ body {
 
 
 .navbar {
-    background: #FFCF81; /* Gradient background */
+    background: #FFCF81;
     overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -72,20 +71,20 @@ body {
 .navbar a {
     float: left;
     display: block;
-    color: #222; /* Darker text color for better contrast */
+    color: #222;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-    transition: color 0.3s ease-in-out; /* Smooth color transition */
+    transition: color 0.3s ease-in-out;
 }
 
 
 .image{
-        width: 90%; /* Make the image fill the container */
+        width: 90%;
         height: 180px;
-        border-radius: 8px; /* Add rounded corners to the image */
-         /* Add a subtle shadow to the image */
-        margin-bottom: 15px; /* Adjust spacing between image and text */
+        border-radius: 8px;
+        
+        margin-bottom: 15px;
     
 }
 .dashboard-intro{

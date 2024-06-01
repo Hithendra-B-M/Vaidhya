@@ -10,9 +10,9 @@ body {
 .chat-container {
     width: 80rem;
     height: 89vh;
-    /* max-width: 80rem; */
-    /* min-width: 80rem; */
-    /* box-sizing: border-box; */
+   
+   
+   
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -21,9 +21,7 @@ body {
     display: flex;
 }
 
-/* .main-original{
-    display: flex ;
-} */
+
 
 .left-part{
     background-color: #FFFEEC;
@@ -32,10 +30,9 @@ body {
     color: black;
     height: 89vh;
     padding-inline: 20px;
-    /* text-align: justify; */
+   
     font-weight: 500;
-    /* max-width: 20rem;
-    min-width: 20rem; */
+   
 }
 
 .left-part h2{
@@ -77,7 +74,7 @@ body {
 
 .chat-box-body {
     padding: 30px;
-    /* max-height: 320px; */
+   
     overflow-y: auto;
     height: 83rem;
 }
@@ -151,9 +148,9 @@ body {
     width: 32px;
     color: #fff;
     background: #C84361;
-    text-align: center; /* IMP*/
-    line-height: 32px; /* IMP*/
-    border-radius: 4px; /* IMP*/
+    text-align: center;
+    line-height: 32px;
+    border-radius: 4px;
     user-select: none;
 }
 
@@ -163,9 +160,9 @@ body {
     width: 32px;
     color: #C84361;
     background: #edecec;
-    text-align: center; /* IMP*/
-    line-height: 32px; /* IMP*/
-    border-radius: 4px; /* IMP*/
+    text-align: center;
+    line-height: 32px;
+    border-radius: 4px;
     margin-right: 10px;
     user-select: none;
 }
@@ -175,9 +172,9 @@ body {
     width: 32px;
     color: #fff;
     background: #C84361;
-    text-align: center; /* IMP*/
-    line-height: 32px; /* IMP*/
-    border-radius: 4px; /* IMP*/
+    text-align: center;
+    line-height: 32px;
+    border-radius: 4px;
     user-select: none;
     padding: 1px;
     cursor: pointer;
@@ -200,7 +197,7 @@ body {
     align-items: center;
     padding: 10px 20px 10px 10px;
     height: 3rem;
-    /* background-color: #ecf0f1; */
+   
     margin: 30px;
     border-radius: 10px;
     border: 3px solid grey;
@@ -254,12 +251,12 @@ body {
     float: left;
     display: block;
     color: #ffffff;
-    /* Darker text color for better contrast */
+   
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
     transition: color 0.3s ease-in-out;
-    /* Smooth color transition */
+   
 }
 
 
@@ -300,7 +297,7 @@ button:hover {
     height: 40px;
 }
 
-/* Add this CSS rule */
+
 .chat-box-body-receive p {
     white-space: pre-wrap;
 }

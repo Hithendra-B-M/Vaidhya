@@ -1,4 +1,3 @@
-/* dashboard.css */
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
 a{
@@ -37,9 +36,9 @@ body {
 }
 
 .navbar {
-    background: #FFD966; /* Gradient background */
+    background: #FFD966;
     overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -85,11 +84,11 @@ body {
 .navbar a {
     float: left;
     display: block;
-    color: #222; /* Darker text color for better contrast */
+    color: #222;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-    transition: color 0.3s ease-in-out; /* Smooth color transition */
+    transition: color 0.3s ease-in-out;
 }
 
 .logo-name{

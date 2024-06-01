@@ -3,7 +3,6 @@ if (localStorage.getItem('targetedLanguage') != 'en') {
     let originalEnglishText = [];
     let translatedText = [];
 
-    // Function to collect text from elements with data-translate attribute during initial page load
     function collectInitialText() {
         originalEnglishText = [];
         document.querySelectorAll('[data-translate]').forEach(element => {
@@ -56,25 +55,6 @@ function mcqfun1() {
     var q9 = (document.querySelector('input[name="q9"]:checked')).value;
     var q10 =(document.querySelector('input[name="q10"]:checked')).value;
 
-    // alert(q1);
-    // alert(q2.value);
-    // alert(q3.value);
-    // alert(q4.value);
-    // alert(q5.value);
-    // alert(q6.value);
-    // alert(q7.value);
-    // alert(q8.value);
-    // alert(q9.value);
-    // alert(q10.value);
-
-    // if (selectedOption) {
-    //     var username = selectedOption.value;
-    //     alert(username);
-    //     alert("Hello");
-    // } else {
-    //     alert("Please select an option.");
-    // }
-    
     return true
 
 }

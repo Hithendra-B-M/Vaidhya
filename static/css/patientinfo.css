@@ -57,7 +57,7 @@ a {
     z-index: 1;
     border: 1px solid rgba(27, 22, 22, 0.304);
     margin-top: 10px;
-    right: 0; /* Align dropdown to the right */
+    right: 0;
 }
 
 .wrapper {
@@ -68,7 +68,7 @@ a {
     box-shadow: 0 0 10px rgba(0, 0, 0, .2);
     color: black;
     border-radius: 10px;
-    padding: 30px 30px; /* Adjust the top and bottom padding */
+    padding: 30px 30px;
 }
 .wrapper h2{
     margin-top: 0px;
@@ -248,7 +248,7 @@ input::-webkit-inner-spin-button {
     margin: 0;
 }
 
-/* Firefox */
+
 input[type=number] {
     -moz-appearance: textfield;
 }

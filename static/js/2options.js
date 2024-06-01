@@ -1,9 +1,6 @@
 if (localStorage.getItem('targetedLanguage') != 'en') {
-
     let originalEnglishText = [];
     let translatedText = [];
-  
-    // Function to collect text from elements with data-translate attribute during initial page load
     function collectInitialText() {
         originalEnglishText = [];
         document.querySelectorAll('[data-translate]').forEach(element => {
@@ -11,7 +8,6 @@ if (localStorage.getItem('targetedLanguage') != 'en') {
         });
     }
     collectInitialText();
-    
     function translateAllElements() {
       const selectedLanguage = localStorage.getItem('targetedLanguage');
       if (selectedLanguage === 'en') {
@@ -34,7 +30,6 @@ if (localStorage.getItem('targetedLanguage') != 'en') {
           document.querySelectorAll('[data-translate]').forEach((element, index) => {
               element.textContent = translatedText[index] || '';
           });
-  
       })
       .catch(error => {
           console.error('Translation error:', error);
@@ -45,7 +40,6 @@ if (localStorage.getItem('targetedLanguage') != 'en') {
 
 document.addEventListener('DOMContentLoaded', function() {
     var cards = document.querySelectorAll('.card');
-
     cards.forEach(function(card) {
         card.addEventListener('click', function() {
             this.classList.toggle('selected');

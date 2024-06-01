@@ -3,7 +3,6 @@ if (localStorage.getItem('targetedLanguage') != 'en') {
   let originalEnglishText = [];
   let translatedText = [];
 
-  // Function to collect text from elements with data-translate attribute during initial page load
   function collectInitialText() {
     originalEnglishText = [];
     document.querySelectorAll('[data-translate]').forEach(element => {

@@ -14,7 +14,6 @@ function translateAllElements() {
     const selectedLanguage = document.getElementById('language-select').value;
     localStorage.setItem('targetedLanguage', selectedLanguage)
 
-    // Check if the selected language is the same as the original language (English)
     if (selectedLanguage == 'en') {
         window.location.reload();
         return;

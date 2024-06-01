@@ -15,9 +15,8 @@ function sendMessage(event) {
             chatBody.appendChild(messageSentDiv);
             inputElement.value = '';
 
-            // Create a "Thinking..." message while waiting for the response
             var messageDiv = document.createElement('div');
-            messageDiv.className = 'chat-box-body-receive'; // Use the same class as received messages
+            messageDiv.className = 'chat-box-body-receive'; 
             var paragraph = 'Thinking...';
 
             var span = document.createElement('span');
@@ -34,7 +33,7 @@ function sendMessage(event) {
 
             inputElement.value = '';
 
-            // Scroll to the bottom of the chat box
+
             chatBody.scrollTop = chatBody.scrollHeight;
 
             fetch('/ask', {
@@ -48,7 +47,6 @@ function sendMessage(event) {
             })
             .then(response => response.json())
             .then(data => {
-                // Remove the "Thinking..." message once the response is received
                 chatBody.removeChild(messageDiv);
 
                 var receivedMessageDiv = document.createElement('div');
@@ -60,7 +58,6 @@ function sendMessage(event) {
 
                 var p = document.createElement('p');
 
-                // Remove the '</s>' tag from the received text if it exists
                 var cleanedData = data['answers'].replace('</s>', '').trim();
                 p.textContent = cleanedData;
 
@@ -68,7 +65,6 @@ function sendMessage(event) {
                 receivedMessageDiv.appendChild(p);
                 chatBody.appendChild(receivedMessageDiv);
 
-                // Scroll to the bottom of the chat box after appending the received message
                 chatBody.scrollTop = chatBody.scrollHeight;
 
                 inputElement.value = '';
@@ -93,9 +89,8 @@ function sendMessageClick() {
         chatBody.appendChild(messageSentDiv);
         inputElement.value = '';
 
-        // Create a "Thinking..." message while waiting for the response
         var messageDiv = document.createElement('div');
-        messageDiv.className = 'chat-box-body-receive'; // Use the same class as received messages
+        messageDiv.className = 'chat-box-body-receive'; 
         var paragraph = 'Thinking...';
 
         var span = document.createElement('span');
@@ -111,8 +106,6 @@ function sendMessageClick() {
         chatBody.appendChild(messageDiv);
 
         inputElement.value = '';
-
-        // Scroll to the bottom of the chat box
         chatBody.scrollTop = chatBody.scrollHeight;
 
         fetch('/ask', {
@@ -126,7 +119,6 @@ function sendMessageClick() {
         })
         .then(response => response.json())
         .then(data => {
-            // Remove the "Thinking..." message once the response is received
             chatBody.removeChild(messageDiv);
 
             var receivedMessageDiv = document.createElement('div');
@@ -138,7 +130,6 @@ function sendMessageClick() {
 
             var p = document.createElement('p');
 
-            // Remove the '</s>' tag from the received text if it exists
             var cleanedData = data['answers'].replace('</s>', '').trim();
             p.textContent = cleanedData;
 
@@ -146,7 +137,6 @@ function sendMessageClick() {
             receivedMessageDiv.appendChild(p);
             chatBody.appendChild(receivedMessageDiv);
 
-            // Scroll to the bottom of the chat box after appending the received message
             chatBody.scrollTop = chatBody.scrollHeight;
 
             inputElement.value = '';
@@ -159,7 +149,6 @@ if (localStorage.getItem('targetedLanguage') != 'en') {
     let originalEnglishText = [];
     let translatedText = [];
 
-    // Function to collect text from elements with data-translate attribute during initial page load
     function collectInitialText() {
         originalEnglishText = [];
         document.querySelectorAll('[data-translate]').forEach(element => {

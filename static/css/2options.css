@@ -51,9 +51,7 @@ h2 {
     font-size: 1.5em;
 }
 
-/* h2:hover{
-    color: #012d56;
-} */
+
 
 p {
     color: #f0f0f0;
@@ -62,7 +60,7 @@ p {
 
 
 .navbar {
-    background: #B6E6BD; /* Gradient background */
+    background: #B6E6BD;
     overflow: hidden;
     display: flex;
     justify-content: space-between;
@@ -73,20 +71,20 @@ p {
 .navbar a {
     float: left;
     display: block;
-    color: #4BAEA0; /* Darker text color for better contrast */
+    color: #4BAEA0;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-    transition: color 0.3s ease-in-out; /* Smooth color transition */
+    transition: color 0.3s ease-in-out;
 }
 
 
 .image{
-        width: 90%; /* Make the image fill the container */
+        width: 90%;
         height: 180px;
-        border-radius: 8px; /* Add rounded corners to the image */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.64); /* Add a subtle shadow to the image */
-        margin-bottom: 15px; /* Adjust spacing between image and text */
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.64);
+        margin-bottom: 15px;
     
 }
 .dashboard-intro{

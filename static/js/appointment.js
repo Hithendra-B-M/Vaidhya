@@ -5,7 +5,6 @@ if (localStorage.getItem('targetedLanguage') != 'en') {
     let originalEnglishText = [];
     let translatedText = [];
   
-    // Function to collect text from elements with data-translate attribute during initial page load
     function collectInitialText() {
         originalEnglishText = [];
         document.querySelectorAll('[data-translate]').forEach(element => {
@@ -59,10 +58,6 @@ function opentime(evt, date) {
   document.getElementById(date).style.display = "block";
   evt.currentTarget.className += " active";
 
-
-
-  // Call Flask endpoint to check availability for the selected date
-  // Update radio buttons based on availability
 }
 
 

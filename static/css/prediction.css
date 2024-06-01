@@ -18,7 +18,7 @@ body {
     padding: 0;
 }
 
-/* CSS for the navigation bar */
+
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -39,12 +39,12 @@ body {
 }
 
 
-/* CSS for the divisions */
+
 .left-section,
 .right-section {
-    width: 45%; /* Adjust width as needed */
+    width: 45%;
     padding: 20px;
-    /* box-sizing: border-box; */
+   
 }
 
 .left-section {
@@ -77,14 +77,14 @@ body {
     border: none;
     background-color: #F9B572;
     color: #fff;
-    /* color: #333A73; */
+   
     font-size: 16px;
     cursor: pointer;
     font-family: 'Poppins', sans-serif;
 }
 
 .form-group input[type="submit"]:hover{
-    /* background-color: #F9B572; */
+   
     font-weight: 900;
 
 }
@@ -150,9 +150,9 @@ button:hover {
 
 .main_div {
     display: flex;
-    justify-content: space-around; /* Adjust as needed */
-    align-items: flex-start; /* Align items at the start of the cross axis */
-    flex-wrap: wrap; /* Allow items to wrap to the next row if there's not enough space */
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-wrap: wrap;
 }
 
 .logo-name{
@@ -175,14 +175,14 @@ button:hover {
     border: none;
     background-color: #F9B572;
     color: #fff;
-    /* color: #333A73; */
+   
     font-size: 16px;
     cursor: pointer;
     font-family: 'Poppins', sans-serif;
 }
 
 .submit-button[type="submit"]:hover{
-    /* background-color: #F9B572; */
+   
     font-weight: 900;
 
 }

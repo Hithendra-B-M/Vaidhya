@@ -26,9 +26,9 @@ body {
 
 .main_div {
     display: flex;
-    justify-content: space-around; /* Adjust as needed */
-    align-items: flex-start; /* Align items at the start of the cross axis */
-    flex-wrap: wrap; /* Allow items to wrap to the next row if there's not enough space */
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-wrap: wrap;
 }
 
 .logo-name{

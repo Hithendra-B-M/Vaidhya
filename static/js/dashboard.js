@@ -2,8 +2,7 @@ if (localStorage.getItem('targetedLanguage') != 'en') {
 
     let originalEnglishText = [];
     let translatedText = [];
-  
-    // Function to collect text from elements with data-translate attribute during initial page load
+
     function collectInitialText() {
         originalEnglishText = [];
         document.querySelectorAll('[data-translate]').forEach(element => {
@@ -55,9 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function logout() {
     window.history.pushState({}, '', window.location.href);
-    // Replace the current entry in the history with a new one, pointing to the index page
     window.history.replaceState({}, '', '/');
-    // Redirect the user to the index page
     window.location.href = "/";
 }
 

@@ -10,7 +10,6 @@
 </head>
 
 <body>
-    <!-- Navigation Bar -->
     <div class="navbar">
         <div class="logo-name">
             <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo-img">
@@ -28,7 +27,6 @@
     </p>
 
     <div class="container">
-        <!-- //////////////////////////////////////////// add link to Description prediction page-->
         <div class="card">
             <a href="{{url_for('prediction1')}}">
                 <h2 data-translate>Give Description</h2>
@@ -37,7 +35,6 @@
             </a>
         </div>
 
-        <!-- ////////////////////////////////////////////add link to take test prediction page -->
         <div class="card">
             <a href="{{url_for('mcq')}}">
             <h2 data-translate>Take test</h2>

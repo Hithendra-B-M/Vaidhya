@@ -69,9 +69,9 @@ button:hover {
 
 .main_div {
     display: flex;
-    justify-content: space-around; /* Adjust as needed */
-    align-items: flex-start; /* Align items at the start of the cross axis */
-    flex-wrap: wrap; /* Allow items to wrap to the next row if there's not enough space */
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-wrap: wrap;
 }
 
 .logo-name{
@@ -136,10 +136,10 @@ h5 {
     margin-inline: 50px;
   }
   
-  /* Style the buttons inside the tab */
+ 
   .tab button {
     background-color: inherit;
-    /* float: left; */
+   
     border: 2px solid #FF3EA5;
     outline: none;
     cursor: pointer;
@@ -148,12 +148,12 @@ h5 {
     font-size: 17px;
   }
   
-  /* Change background color of buttons on hover */
+ 
   .tab button:hover {
     background-color: #FFE3ED;
   }
   
-  /* Create an active/current tablink class */
+ 
   .tab button.active {
     background-color: #FFE3ED;
   }
@@ -170,18 +170,18 @@ h5 {
 
   
   
-  /* Style the tab content */
+ 
   .tabcontent {
     display: none;
     width: 100%;
-    /* margin-inline: 150px; */
+   
 
   }
 
   .login-box {
     position: relative;
     width: 100%;
-    /*height: 600px; */
+   
     background: transparent;
     border: 2px solid pink;
     border-left: none;
@@ -191,7 +191,7 @@ h5 {
     align-items: center;
     backdrop-filter: blur(5px);
     overflow: hidden;
-    /* box-shadow: 0 0 20px 5px rgba(31, 165, 145, 0.9), 0 0 30px 5px rgba(31, 165, 145, 0.9); */
+   
 
 } 
 
@@ -280,7 +280,7 @@ margin-inline: 150px;
 }
 
 input[type="radio"] {
-    cursor: default; /* Disable cursor line */
+    cursor: default;
   }
 [type="radio"]:checked,
 [type="radio"]:not(:checked) {

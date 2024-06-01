@@ -3,7 +3,6 @@ if (localStorage.getItem('targetedLanguage') != 'en') {
     let originalEnglishText = [];
     let translatedText = [];
 
-    // Function to collect text from elements with data-translate attribute during initial page load
     function collectInitialText() {
         originalEnglishText = [];
         document.querySelectorAll('[data-translate]').forEach(element => {
@@ -58,7 +57,6 @@ function fetchdetails(){
 
 
 function downloadReport(name, pid, age, sfeel, stest, docid, docname) {
-    // Construct the URL with parameters
     var url = '/generatereport?' +
         'name=' + encodeURIComponent(name) +
         '&pid=' + encodeURIComponent(pid) +
@@ -67,8 +65,6 @@ function downloadReport(name, pid, age, sfeel, stest, docid, docname) {
         '&stest=' + encodeURIComponent(stest) +
         '&docid=' + encodeURIComponent(docid) +
         '&docname=' + encodeURIComponent(docname);
-
-    // Redirect the user to the constructed URL
     window.location.href = url;
 }
 

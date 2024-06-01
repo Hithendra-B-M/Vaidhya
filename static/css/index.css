@@ -178,8 +178,8 @@ body {
 
 #myButton {
     padding: 12px 20px;
-    background-color: white; /* Button background color */
-    color: #0dcaad; /* Button text color */
+    background-color: white;
+    color: #0dcaad;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -193,9 +193,9 @@ body {
 
 #language-select{
     padding: 12px;
-     /* Adjust padding as needed */
-    background-color: white; /* Button background color */
-    color: #0dcaad; /* Button text color */
+    
+    background-color: white;
+    color: #0dcaad;
     border: none;
     border-radius: 4px;
     cursor: pointer;
