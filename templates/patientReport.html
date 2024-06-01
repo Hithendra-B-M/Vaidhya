@@ -26,13 +26,13 @@
             <div class="statusf">
                 <form method="POST" action="/fetchpatientdetails" onsubmit="fetchdetails();">
                     <div class="input-box">
-                        <input type="text" required="required" id="patientid" name="patientid" data-translate
-                            placeholder="Patient ID" autocomplete="off" data-translate>
-
+                        <input type="text" required="required" id="patientid" name="patientid" autocomplete="off">
+                        <span data-translate>Patient ID</span>
                     </div>
 
                     <div class="input-box">
-                        <input type="password" required="required" id="key" name="key" data-translate placeholder="Key">
+                        <input type="password" required="required" id="key" name="key">
+                        <span data-translate>key</span>
                     </div>
                     <br>
                     <div>
@@ -42,7 +42,13 @@
             </div>
 
             <div class="statuss">
+                {%if message %}
                 <h1 data-translate>{{ message }}</h1>
+                {% else %}
+                <div class="out">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo-out1">
+                </div> 
+                {% endif %}
             </div>
         </div>
 

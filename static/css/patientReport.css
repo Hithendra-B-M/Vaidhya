@@ -28,6 +28,10 @@ body {
   height: 120px;
 }
 
+.logo-out1{
+  height: 60px;
+}
+
 .out{
   display: flex;
 }
@@ -161,7 +165,6 @@ form{
 .input-box {
   position: relative;
   margin: 10px;
-  display: flex;
   align-items: center; 
 }
 
@@ -253,4 +256,21 @@ th{
   padding: 20px;
   font-weight: 900;
   color: #FC4100;
+}
+
+.input-box span{
+  position: absolute;
+  left: 0;
+  padding: 10px;
+  pointer-events: none;
+  font-size: 1em;
+  transition: 0.5s;
+  color: #666e7188;
+}
+
+.input-box input:valid ~ span,
+.input-box input:focus ~ span
+{
+  color: transparent;
+
 }
