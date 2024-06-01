@@ -18,14 +18,17 @@
     </div>
 
     <div class="names-heading">
-        <h1 data-translate class="h1">Error 500</h1>
+        <video autoplay muted loop>
+            <source src="{{ url_for('static', filename='videos/error500.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
     </div>
 
     <div class="second">
         {% if message %}
-        <h3 data-translate>Internal Server Error - {{message}}</h3>
+        <h3 data-translate>Meta code - {{message}}</h3>
         {% else %}
-        <h3 data-translate>Internal Server Error</h3>
+        <h3 data-translate>Meta Code - XXXNE</h3>
         {% endif %}
         <h3 data-translate>Try Visiting the Main site or kindly contact <span> vaidhya.co@gmail.com </span> for Further Instruction.</h3>
 
