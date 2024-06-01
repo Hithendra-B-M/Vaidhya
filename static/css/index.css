@@ -218,3 +218,10 @@ body {
 .logo-img{
     height: 40px;
 }
+
+.h4warning{
+    color: red;
+    font-weight: 800;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
