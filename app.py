@@ -22,8 +22,10 @@ app.secret_key = config["SECRETS"]["APP_SECRET_KEY"]
 translate_api_url = config["URL"]["TRANSLATE_URL"]
 chatbot_api_url = config["URL"]["CHATBOT_URL"]
 feel_api_url = config["URL"]["FEEL_URL"]
+
 model = joblib.load("static/models/disease_prediction_model.joblib")
 le_results = joblib.load("static/models/label_encoder_results.joblib")
+
 client = MongoClient(config["DATABASE"]["STRING"])
 db = client[config["DATABASE"]["DATABASE_NAME"]]
 collection_pl = db[config["DATABASE"]["COLLECTION_PATIENT_LOGIN"]]
