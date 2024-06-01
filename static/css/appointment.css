@@ -64,7 +64,6 @@ button {
 }
 
 button:hover {
-  background-color: #FFE3ED;  
   font-weight: 900;  
 } 
 
@@ -158,6 +157,18 @@ h5 {
   .tab button.active {
     background-color: #FFE3ED;
   }
+
+  .submit-button {
+    background-color: inherit;
+    border: 2px solid #FF3EA5;
+    outline: none;
+    cursor: pointer;
+    padding: 10px 30px;
+    font-size: 15px;
+  }
+  
+
+  
   
   /* Style the tab content */
   .tabcontent {

@@ -5,13 +5,13 @@ if (localStorage.getItem('targetedLanguage') != 'en') {
   
     // Function to collect text from elements with data-translate attribute during initial page load
     function collectInitialText() {
-        originalEnglishText = [];
-        document.querySelectorAll('[data-translate]').forEach(element => {
-            originalEnglishText.push(element.textContent);
-        });
+      originalEnglishText = [];
+      document.querySelectorAll('[data-translate]').forEach(element => {
+        originalEnglishText.push(element.textContent);
+      });
     }
     collectInitialText();
-    
+  
     function translateAllElements() {
       const selectedLanguage = localStorage.getItem('targetedLanguage');
       if (selectedLanguage === 'en') {
@@ -19,29 +19,29 @@ if (localStorage.getItem('targetedLanguage') != 'en') {
       }
       sessionStorage.setItem('targetedLanguage', selectedLanguage);
       fetch('/translate', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          }, 
-          body: JSON.stringify({
-              texts: originalEnglishText,
-              target_lang: selectedLanguage,
-          }),
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          texts: originalEnglishText,
+          target_lang: selectedLanguage,
+        }),
       })
-      .then(response => response.json())
-      .then(data => {
+        .then(response => response.json())
+        .then(data => {
           translatedText = data.translated_texts || [];
           document.querySelectorAll('[data-translate]').forEach((element, index) => {
-              element.textContent = translatedText[index] || '';
+            element.textContent = translatedText[index] || '';
           });
   
-      })
-      .catch(error => {
+        })
+        .catch(error => {
           console.error('Translation error:', error);
-      });
+        });
     }
     translateAllElements();
-}
+  }
 
 function chooseusername() {
     var username = document.getElementById("login-username").value;    

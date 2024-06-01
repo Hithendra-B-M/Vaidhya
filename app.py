@@ -328,7 +328,7 @@ def validate_login():
 
             return render_template('dashboard.html')
         else:
-            return render_template('index.html')
+            return render_template('index.html', message = "Invalid username and password!")
     return render_template('index.html')
 
 @app.route("/userfeeling", methods=["GET", "POST"])
@@ -375,7 +375,7 @@ def validate_doctor_login():
 
             return render_template('doctordashboard.html')
         else:
-            return render_template('doctorLogin.html')
+            return render_template('doctorLogin.html',  message = "Invalid username and password!")
     return render_template('doctorLogin.html')
 
 @app.route('/fetchpatientdetails', methods=["GET", "POST"])
