@@ -22,7 +22,11 @@
     </div>
 
     <div class="second">
+        {% if message %}
+        <h3 data-translate>Internal Server Error - {{message}}</h3>
+        {% else %}
         <h3 data-translate>Internal Server Error</h3>
+        {% endif %}
         <h3 data-translate>Try Visiting the Main site or kindly contact <span> vaidhya.co@gmail.com </span> for Further Instruction.</h3>
 
     </div>
