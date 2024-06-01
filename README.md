@@ -1,7 +1,7 @@
 <div align="center">
-<image src=""/>
+<image src="https://github.com/k-arthik-r/Vaidhya/assets/111432615/15e13045-27eb-47bd-8d3e-00b7dc9cc64d"/>
 </div>
-  
+
 ------------------------
 
 <div align="center">
