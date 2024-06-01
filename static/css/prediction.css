@@ -166,3 +166,23 @@ button:hover {
 .logo-img{
     height: 40px;
 }
+
+.submit-button{
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: 500;
+    border: none;
+    background-color: #F9B572;
+    color: #fff;
+    /* color: #333A73; */
+    font-size: 16px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+}
+
+.submit-button[type="submit"]:hover{
+    /* background-color: #F9B572; */
+    font-weight: 900;
+
+}
