@@ -41,7 +41,7 @@ def check_credentials(username, password):
     return user is not None
 
 def connect_to_mongodb():
-    global client, db, admin_collection, doctor_collection, patient_collection, consultation_collection, doctor_login_collection, data_collection
+    global client, db, admin_collection, doctor_collection, patient_collection, patient_login_collection, consultation_collection, doctor_login_collection, data_collection
     mongo_uri = mongodb_entry.get()
     try:
         client = pymongo.MongoClient(mongo_uri)
@@ -49,6 +49,7 @@ def connect_to_mongodb():
         admin_collection = db["admin"]
         doctor_collection = db["doctor_info"]
         patient_collection = db["patient_info"]
+        patient_login_collection = db["patient_login"]
         consultation_collection = db["consultation"]
         doctor_login_collection = db["doctor_login"]
         data_collection = db["data"]
@@ -247,7 +248,7 @@ def delete_patient_account():
                 patient_username = patient_record.get("patient_username")
                 if patient_username:
                     patient_collection.delete_one({"_id": patient_id})
-                    admin_collection.delete_one({"_id": patient_username})
+                    patient_login_collection.delete_one({"_id": patient_username})
                     data_collection.delete_one({"_id": patient_username})
                     messagebox.showinfo("Success", f"Patient ID {patient_id} and associated login {patient_username} deleted successfully")
                 else:
