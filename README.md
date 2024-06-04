@@ -30,3 +30,18 @@
 </div>
 
 ------------------------
+
+
+------------------------
+
+## Requirments
+- Python 3.9.13 (Recommended) 
+
+<a href="https://www.python.org/downloads](https://www.python.org/downloads/release/python-3913/" alt="python">
+        <img src="https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54" /></a>
+
+- Mongo DB Atlas Account(To Save data in cloud) or Mongo DB Compass(To Save the Data Locally)
+
+<a href="https://www.mongodb.com/" alt="mongo">
+      <img src="https://img.shields.io/badge/MongoDB_Atlas-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white"></a>
+        
