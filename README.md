@@ -117,16 +117,19 @@ Add a Custom made FLASK APP SECRET KEY [Here](config.ini)
 ## How to Run?
 
 - Intialize a Git Repository.
+  
 ```bash
   git init
 ```
 
 - Clone the Current Git Repository.
+  
 ```bash
   git clone https://github.com/k-arthik-r/Vaidhya.git
 ```
 
 - Crete a Virtual Environment named env and Activate it(PowerShell)
+  
 ```bash
   python -m venv env
 
@@ -134,6 +137,7 @@ Add a Custom made FLASK APP SECRET KEY [Here](config.ini)
 ```
 
 - Install all the Modules Present in [requirements](requirements.txt)
+  
 ```bash
   pip install -r requirements.txt
 ```
@@ -143,6 +147,8 @@ Add a Custom made FLASK APP SECRET KEY [Here](config.ini)
 ```bash
   python app.py
 ```
+
+
 -------------------------
 
 ## Important Notes:
@@ -178,6 +184,8 @@ The Entire Project is Divided into 2 Parts:
   
 #### Feel Page
 - powered by LLM, capable of classifiying the given feelings and predict the mental state.
+
+<br><br>
 
 ### Doctors's Interface  
 
