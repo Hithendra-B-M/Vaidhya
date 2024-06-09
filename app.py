@@ -1071,7 +1071,19 @@ def savedetails():
                 "patient_name": patient_name,
             }
             print(data)
+            data_health = {
+                "_id":patient_username,
+                "age":age,
+                "symptom-feel": "",
+                "symptom-test": "",
+                "key": "",
+                "patientid": p_id,
+                "patientname": patient_name,
+                "doctor_name": "",
+                "doctor_id": ""
+            }
             collection_pi.insert_one(data)
+            collection_data.insert_one(data_health)
             return jsonify(message="Details Saved successfully!")
         else:
             date = appointment_data["DOB"]
@@ -1094,6 +1106,7 @@ def savedetails():
             ph_number = appointment_data["contactnumber"]
             patient_name = appointment_data["name"]
             query = {"patient_username": main_patientusername}
+            query_n_d_h = {"_id": main_patientusername}
             newquery = {
                 "$set": {
                     "DOB": DOB,
@@ -1104,7 +1117,14 @@ def savedetails():
                     "patient_name": patient_name,
                 }
             }
+            new_data_health = {
+                "$set": {
+                    "age":age,
+                    "patientname": patient_name,
+                }
+            }
             collection_pi.update_one(query, newquery)
+            collection_data.update_one(query_n_d_h, new_data_health)
             return jsonify(message="Data Updated successfully!")
     except:
         return render_template("errorfetch.html", message=error), 500
