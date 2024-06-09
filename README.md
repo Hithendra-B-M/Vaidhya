@@ -143,6 +143,7 @@ Add a Custom made FLASK APP SECRET KEY [Here](config.ini)
 ```
 
 - Comeplete the Above setup phase and add all the required credentials in [config.ini](config.ini)
+
   
 ```bash
   python app.py
@@ -264,6 +265,17 @@ Features:
 - Offer appointments in predefined time slots.
 - Option to set one custom slot based on the doctor's availability.
 - View and manage scheduled appointments.
+
+------------------------------
+
+## Working - Admin
+Admin is a tkinter application which is made an exe file capable of being installed on a system. 
+3 Features of Admin:
+- Able to Delete Patient Records.
+- Able to Delete Doctor Records.
+- Maps Doctor with the Patient (Needs to be manually Done Via Admin.)
+
+Both Patients and Doctor would not have the direct authority to delete their account, insted they need to mail admin in order to delete. 
 
 ------------------------------
 
