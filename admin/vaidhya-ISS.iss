@@ -26,7 +26,7 @@ InfoAfterFile=C:\Users\karth\OneDrive\Documents\Licence\Instruction - last - Vai
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 OutputDir=K:\
-OutputBaseFilename=vaidhya_WIN_x64_setup.exe
+OutputBaseFilename=vaidhya_WIN_x64_setup
 SetupIconFile=K:\V-A\logo.ico
 Compression=lzma
 SolidCompression=yes
