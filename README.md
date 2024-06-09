@@ -40,7 +40,7 @@ The Project Focuss on 6 Mental Abnormalities namely:
 - Bipolar Disorder
 - Obsessive-Compulsive Disorder (OCD)
 - Post-Traumatic Stress Disorder (PTSD)
-- 
+  
 ------------------------
 
 ## Requirments
