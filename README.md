@@ -266,3 +266,52 @@ Features:
 - View and manage scheduled appointments.
 
 ------------------------------
+
+## Google Colab URL's
+
+### Chatbot
+The ChatBot is a RAG Model used to answer user Query. you can access the  document Used to Answer User Question [Here](). 
+
+RAG Implementation:
+- Storage: Chroma DB
+- Framework: Langchain
+- Generative Model: TheBloke/Llama-2-13B-Chat-GPTQ
+- Embedding Model: hkunlp/instructor-large
+- Retriever: RetrievalQA
+- Server: ngrok
+
+#### Multilingual System
+- Dataset: Samantara
+- Base Model: google/mt5
+- Server: ngrok
+
+#### Feeling Predictor
+- Model - mistralai/Mistral-7B-Instruct-v0.2
+- Server: ngrok
+
+You can contact us for all the Colab File @ voidex.developer@gmail.com
+
+------------------------------
+
+## Key Features
+- Mental Health Prediction and Diagnosis Based on Tests and Felling Analysis.
+- Proactive and Advance Chat-Bots to help the Users.
+- Multingual Support to Diversify the Usage of the System.
+- Doctor Appointment System.
+- Personalized Treatment Recommendations.
+- Real-time Monitoring and Updates.
+- 100% API Free Infrastructure.
+- Use of Large Language Models (LLMs).
+- The Database used to Manage the data of the Medix is MongoDB Atlas, a Cloud storage service. One of the advantage of such is that multiple users can manipulate data from different places simutaneously.
+
+----------------------------
+
+## License
+
+[![Licence](https://img.shields.io/github/license/Ileriayo/markdown-badges?style=for-the-badge)](./LICENSE)
+
+----------------------------
+
+## Feedback
+If you have any feedback, please reach out to us at voidex.developer@gmail.com .
+You are also welcomed to add new features by creating Pull Requests.
