@@ -152,12 +152,6 @@ Add a Custom made FLASK APP SECRET KEY [Here](config.ini)
 
 -------------------------
 
-## Important Notes:
-- The Website in currently PC Responsive only, contributers are invited to modify the CSS files to Make it Responsive which will be revived and accepted.
-- The Appointment is currently Desined to save appointments only for a specific date irrespective on the Doctor.
-
--------------------------
-
 ## Archetecture
 
 -------------------------
@@ -315,6 +309,18 @@ You can contact us for all the Colab File @ voidex.developer@gmail.com
 - 100% API Free Infrastructure.
 - Use of Large Language Models (LLMs).
 - The Database used to Manage the data of the Medix is MongoDB Atlas, a Cloud storage service. One of the advantage of such is that multiple users can manipulate data from different places simutaneously.
+
+-------------------------
+
+## Important Notes:
+- The Website in currently PC Responsive only, contributers are invited to modify the CSS files to Make it Responsive which will be revived and accepted.
+- The Details of the Admin needs to be added manually in the mongo DB.
+  Admin Requires the below details:
+  - username
+  - password
+  - email through which mails are needs to be sent.
+  - App Password for the mentioned email
+  
 
 ----------------------------
 
