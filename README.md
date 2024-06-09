@@ -286,7 +286,7 @@ RAG Implementation:
 - Server: ngrok
 
 #### Feeling Predictor
-- Model - mistralai/Mistral-7B-Instruct-v0.2
+- Model: mistralai/Mistral-7B-Instruct-v0.2
 - Server: ngrok
 
 You can contact us for all the Colab File @ voidex.developer@gmail.com
