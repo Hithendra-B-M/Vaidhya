@@ -398,7 +398,7 @@ def validate_login():
             required_one = {"_id": username, "password": password}
             data = collection_pl.find_one(required_one)
             if data:
-                global main_patientusername, main_doctorname
+                global main_patientusername, main_doctorname, main_doctorusername
                 main_patientusername = username
                 try:
                     patient_info = collection_pi.find_one(
@@ -409,6 +409,7 @@ def validate_login():
                     doctor_id = consultation["doctor_id"]
                     doctor_info = collection_di.find_one({"_id": doctor_id})
                     main_doctorname = doctor_info["doctor_name"]
+                    main_doctorusername = doctor_info["doctor_username"]
                 except:
                     pass
                 if not collection_pi.find_one(
@@ -580,6 +581,8 @@ def generatereport():
 def appointment():
     error = "GAP1AP"
     try:
+        doc = collection_di.find_one({"doctor_username": main_doctorusername})
+        doc_id = doc['_id']
         def get_next_weekdays(start_date, num_days):
             weekdays = []
             current_date = start_date
@@ -590,7 +593,7 @@ def appointment():
                 weekdays.append(current_date)
             return weekdays
         def get_availability(date):
-            availability = collection_as.find_one({"_id": date})
+            availability = collection_as.find_one({doc_id + "-" +  date})
             if availability:
                 return availability
             else:
@@ -619,13 +622,15 @@ def appointment():
 def submit_appointment():
     error = "GAP1SP"
     try:
+        doc = collection_di.find_one({"doctor_username": main_doctorusername})
+        doc_id = doc['_id']
         appointment_data = request.get_json(force=True)
         name = appointment_data.get("name")
         pid = appointment_data.get("pid")
         time_slot = appointment_data.get("timeSlot")
         mode = appointment_data.get("mode")
         date = appointment_data.get("dates")
-        query = {"_id": date}
+        query = {"_id": doc_id + "-" +  date}
         newquery = {"$set": {time_slot: 1}}
         collection_as.update_one(query, newquery)
         new_appointment = {
@@ -689,7 +694,9 @@ def submit_docappointment():
             datek = datetime.strptime(appointment_docdata["date"], "%Y-%m-%d")
             date = datek.strftime("%d-%m-%Y")
             time_slots = []
-            result = {"_id": date}
+            doc = collection_di.find_one({"doctor_username": main_doctorusername})
+            doc_id = doc['_id']
+            result = {doc_id + "-" +  date}
             for time_slot in appointment_docdata.get("timeSlots", []):
                 time_slots.append(time_slot)
             if appointment_docdata["customTimeSlot"]:
