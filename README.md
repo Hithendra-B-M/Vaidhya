@@ -155,6 +155,11 @@ Add a Custom made FLASK APP SECRET KEY [Here](config.ini)
 
 ## Archetecture
 
+![vaidhya_archetecture drawio](https://github.com/k-arthik-r/Vaidhya/assets/111432615/d000cdb0-e798-4e55-a464-86591686b673)
+
+You can find the Editable Archetecture Copy [Here](Archetecture/vaidhya_archetecture.drawio)
+
+
 -------------------------
 
 ## Working
