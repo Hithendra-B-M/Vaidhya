@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Vaidhya"
-#define MyAppVersion "1.1"
+#define MyAppVersion "1.2"
 #define MyAppPublisher "Voidex"
 #define MyAppURL "karthikr.xyz"
 #define MyAppExeName "Vaidhya.exe"
@@ -10,7 +10,7 @@
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{A36B3539-BD6F-483B-8A86-B230D9A9F59D}
+AppId={{494D50DB-D81D-40B3-B212-9B8140385270}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 ;AppVerName={#MyAppName} {#MyAppVersion}
@@ -25,8 +25,8 @@ InfoBeforeFile=C:\Users\karth\OneDrive\Documents\Licence\Instruction Vaidhya.txt
 InfoAfterFile=C:\Users\karth\OneDrive\Documents\Licence\Instruction - last - Vaidhya.txt
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
-OutputDir=K:\V-A
-OutputBaseFilename=vaidhya_WIN_x64_setup
+OutputDir=K:\
+OutputBaseFilename=vaidhya_WIN_x64_setup.exe
 SetupIconFile=K:\V-A\logo.ico
 Compression=lzma
 SolidCompression=yes

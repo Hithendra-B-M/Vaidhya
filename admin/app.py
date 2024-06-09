@@ -1,11 +1,34 @@
 import os
 import sys
 import pymongo
+import smtplib
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 mongodb_entry = None
+u_name = None
+
+
+
+def mailsender(ssender_email, ssender_password, temail, ssubject, sbody):
+    sender_email = ssender_email
+    sender_password = ssender_password
+    to_email = temail
+    subject = ssubject
+    body = sbody
+
+    message = MIMEMultipart()
+    message["From"] = sender_email
+    message["To"] = to_email
+    message["Subject"] = subject
+    message.attach(MIMEText(body, "plain"))
+    with smtplib.SMTP("smtp.gmail.com", 587) as server:
+        server.starttls()
+        server.login(sender_email, sender_password)
+        server.sendmail(sender_email, to_email, message.as_string())
 
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
@@ -37,6 +60,8 @@ def firstpage():
     first_frame.place(relx=0.5, rely=0.5, anchor="center")
 
 def check_credentials(username, password):
+    global u_name
+    u_name = username
     user = admin_collection.find_one({"_id": username, "password": password})
     return user is not None
 
@@ -163,16 +188,53 @@ def doctor_patient_mapping():
     def submit_mapping():
         selected_doctor_id = combo_doctor.get()
         selected_patient_id = combo_patient.get()
+        try:
         
-        if selected_doctor_id and selected_patient_id:
-            consultation_record = {
-                "_id": selected_patient_id,
-                "doctor_id": selected_doctor_id
-            }
-            consultation_collection.insert_one(consultation_record)
-            messagebox.showinfo("Success", "Consultation record saved successfully")
-        else:
-            messagebox.showerror("Error", "Please select both doctor and patient IDs")
+            if selected_doctor_id and selected_patient_id:
+                consultation_record = {
+                    "_id": selected_patient_id,
+                    "doctor_id": selected_doctor_id
+                }
+                consultation_collection.insert_one(consultation_record)
+                doc = doctor_collection.find_one({"_id": selected_doctor_id})
+                doctor_name = doc['doctor_name']
+                key = selected_doctor_id + doctor_name[0:2]
+                patient = patient_collection.find_one({"_id": selected_patient_id})
+                patient_username = patient['patient_username']
+                query = data_collection.find_one({"_id": patient_username})
+
+                new_query = {
+                    "$set" : {
+                        "key": key,
+                        "doctor_name":doctor_name,
+                        "doctor_id": selected_doctor_id
+                    }
+                }
+                data_collection.update_one(query, new_query)
+
+                user = admin_collection.find_one({"_id": u_name})
+                
+                doc_email = doc['email']
+                doc_name = doc['doctor_name']
+                patient_email = patient['email']
+                patient_name = patient['patient_name']
+
+                sender_mail = user['email']
+                sender_password = user['email_app_password']
+
+                d_subject = "New Patient Assigned"
+                d_body = f"Dear {doc_name},\n\nThank you for registering with Vaidhya.\nYou Have been Assigned a new Patient.\n\nPatient Details:\nPatient Name: {patient_name}\nPatient ID: {patient['_id']}\nPatient Email: {patient_email}\nPatient Contact: {patient['ph_number']}\n\nThank you for your cooperation, we greatly advise you to contact your Patient as soon as possible.\n\nThanks & Regards,\nVaidhya"            
+
+                p_subject = "New Doctor Assigned"
+                p_body = f"Dear {patient_name},\n\nThank you for registering with Vaidhya.\nYou Have been Assigned a new Doctor.\n\nDoctor Details:\nDoctor Name: {doc_name}\nDoctor Email: {doc_email}\nDoctor Contact: {doc['ph_number']}\n\nThank you for your cooperation, we greatly advise you to contact your Doctor as soon as possible.\n\nThanks & Regards,\nVaidhya"            
+
+                mailsender(sender_mail, sender_password, doc_email, d_subject, d_body)
+                mailsender(sender_mail, sender_password, patient_email, p_subject, p_body)
+                messagebox.showinfo("Success", "Consultation record saved successfully")
+            else:
+                messagebox.showerror("Error", "Please select both doctor and patient IDs")
+        except:
+            messagebox.showerror("Error", "Something Went Wrong!!")
 
     button_submit = tk.Button(C_frame, text="Submit", command=submit_mapping, font=("Bahnschrift", 14, 'bold'), bg="#C73659", fg="white",width=18)
     button_submit.pack(pady=40)
@@ -200,21 +262,34 @@ def delete_doctor_account():
 
     def submit_delete():
         doctor_id = entry_doctor_id.get()
+
+        try:
         
-        if doctor_id:
-            doctor_record = doctor_collection.find_one({"_id": doctor_id})
-            if doctor_record:
-                doctor_username = doctor_record.get("doctor_username")
-                if doctor_username:
-                    doctor_collection.delete_one({"_id": doctor_id})
-                    doctor_login_collection.delete_one({"_id": doctor_username})
-                    messagebox.showinfo("Success", f"Doctor ID {doctor_id} and associated login {doctor_username} deleted successfully")
+            if doctor_id:
+                doctor_record = doctor_collection.find_one({"_id": doctor_id})
+                if doctor_record:
+                    doctor_username = doctor_record.get("doctor_username")
+                    if doctor_username:
+                        doctor_collection.delete_one({"_id": doctor_id})
+                        doctor_login_collection.delete_one({"_id": doctor_username})
+                        user = admin_collection.find_one({"_id": u_name})
+                        doctor_mail_id = doctor_record['email']
+                        doctor_name = doctor_record['doctor_name']
+                        sender_mail = user['email']
+                        sender_password = user['email_app_password']
+                        subject = "Account Deletion Request"
+                        message = f"Dear {doctor_name},\n\nYour Vaidhya Doctor Account with Doctor ID {doctor_id} and associated login {doctor_username} has been deleted successfully.\n\nThanks and Regards,\nVaidhya."
+                        mailsender(sender_mail, sender_password, doctor_mail_id, subject, message)
+                        messagebox.showinfo("Success", f"Doctor ID {doctor_id} and associated login {doctor_username} deleted successfully")
+                    else:
+                        messagebox.showerror("Error", "Doctor username not found")
                 else:
-                    messagebox.showerror("Error", "Doctor username not found")
+                    messagebox.showerror("Error", "Doctor ID not found")
             else:
-                messagebox.showerror("Error", "Doctor ID not found")
-        else:
-            messagebox.showerror("Error", "Please enter a Doctor ID")
+                messagebox.showerror("Error", "Please enter a Doctor ID")
+        except:
+            messagebox.showerror("Error", "Something Went Wrong!!")
+
 
     button_submit = tk.Button(D_frame, text="Submit", command=submit_delete,  font=("Bahnschrift", 14, 'bold'), bg="#C73659", fg="white",width=18)
     button_submit.pack(pady=20)
@@ -241,22 +316,34 @@ def delete_patient_account():
 
     def submit_delete_patient():
         patient_id = entry_patient_id.get()
-        
-        if patient_id:
-            patient_record = patient_collection.find_one({"_id": patient_id})
-            if patient_record:
-                patient_username = patient_record.get("patient_username")
-                if patient_username:
-                    patient_collection.delete_one({"_id": patient_id})
-                    patient_login_collection.delete_one({"_id": patient_username})
-                    data_collection.delete_one({"_id": patient_username})
-                    messagebox.showinfo("Success", f"Patient ID {patient_id} and associated login {patient_username} deleted successfully")
+        try:
+            if patient_id:
+                patient_record = patient_collection.find_one({"_id": patient_id})
+                if patient_record:
+                    patient_username = patient_record.get("patient_username")
+                    if patient_username:
+                        patient_collection.delete_one({"_id": patient_id})
+                        patient_login_collection.delete_one({"_id": patient_username})
+                        data_collection.delete_one({"_id": patient_username})
+
+                        user = admin_collection.find_one({"_id": u_name})
+                        patient_mail_id = patient_record['email']
+                        patient_name = patient_record['patient_name']
+                        sender_mail = user['email']
+                        sender_password = user['email_app_password']
+                        subject = "Account Deletion Request"
+                        message = f"Dear {patient_name},\n\nYour Vaidhya Patient Account with Patient ID {patient_id} and associated login {patient_username} has been deleted successfully.\n\nThanks and Regards,\nVaidhya."
+                        mailsender(sender_mail, sender_password, patient_mail_id, subject, message)
+
+                        messagebox.showinfo("Success", f"Patient ID {patient_id} and associated login {patient_username} deleted successfully")
+                    else:
+                        messagebox.showerror("Error", "Patient username not found")
                 else:
-                    messagebox.showerror("Error", "Patient username not found")
+                    messagebox.showerror("Error", "Patient ID not found")
             else:
-                messagebox.showerror("Error", "Patient ID not found")
-        else:
-            messagebox.showerror("Error", "Please enter a Patient ID")
+                messagebox.showerror("Error", "Please enter a Patient ID")
+        except:
+            messagebox.showerror("Error", "Something Went Wrong!!")
 
     button_submit = tk.Button(E_frame, text="Submit", command=submit_delete_patient, font=("Bahnschrift", 14, 'bold'), bg="#C73659", fg="white",width=18)
     button_submit.pack(pady=40)
