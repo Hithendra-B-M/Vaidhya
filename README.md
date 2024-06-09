@@ -167,43 +167,102 @@ The Entire Project is Divided into 2 Parts:
 - Patient's Interface
 - Doctor's Interface
 
-### Patient's Interface  
+### Patient's Interface
 
 #### Patient Login Page
-- Patient Login Page - Take input username and password to login to the user'a account.
-- Patients can Create New Account using the link present in Patient Login Page.
-- Patients can reset account password using the link present in Patient Login Page.
-- Patient can choose the respective Language.
-- Patient can Navigate to the About Page.
+
+Features:
+- Input fields for username and password to authenticate the patient.
+- Links for creating a new account and resetting the password.
+- Language selection dropdown to accommodate multiple languages.
+- Navigation link to the About Page.
+
+<br>
+  
+#### Account Management
+
+Create New Account:
+- Form to collect user details including name, email, password, and other necessary information.
+- Email verification step for account activation.
+
+Reset Password:
+- Email-based password reset link or security question-based password reset option.
+
+<br>
   
 #### Patient Dashboard
-- where patients have access to Helpline Chatbot, Disease Prediction through Tests and Felling Submission to Schedule an Appointment with the Doctor in the available time slot.
 
+Features:
+- Access to the Helpline Chatbot for immediate support and inquiries.
+- Disease Prediction section where patients can undergo tests to predict their mental state.
+- Feeling Submission section to schedule appointments based on the user's emotional state.
+- Display upcoming appointments and recent interactions with doctors.
+
+<br>
+  
 #### Test Page
-- where the users are given 10 scenario based question to predict their mental state.
+
+Features:
+- A set of 10 scenario-based questions to help predict the patient's mental state.
+- Immediate feedback or result based on the responses.
+
+<br>
   
 #### Feel Page
-- powered by LLM, capable of classifiying the given feelings and predict the mental state.
 
-<br><br>
+Features:
+- Powered by a Language Model (LLM) to classify and interpret the patient's feelings.
+- Predicts the mental state based on the submitted feelings.
+- Option to schedule an appointment with a doctor based on the assessment.
+  
+<br>
+<br>
 
-### Doctors's Interface  
+### Doctor's Interface
 
 #### Doctor Login Page
-- Doctor Login Page - Take input username and password to login to the user'a account.
-- Doctors can Create New Account using the link present in Patient Login Page.
-- Doctors can reset account password using the link present in Patient Login Page.
-- Doctors can choose the respective Language.
-- Doctors can Navigate to the About Page.
+
+Features:
+- Input fields for username and password to authenticate the doctor.
+- Links for creating a new account and resetting the password.
+- Language selection dropdown to accommodate multiple languages.
+- Navigation link to the About Page.
+
+<br>
   
-#### Patient Dashboard
-- can check patient report or offer Appointments based on predefined slots.
+#### Account Management
+
+Create New Account:
+- Form to collect user details including name, email, password, licence, and other necessary information.
+- Email verification step for account activation.
+
+Reset Password:
+- Email-based password reset link or security question-based password reset option.
+
+<br>
+
+#### Doctor Dashboard
+
+Features:
+- View and manage patient reports.
+- Offer and manage appointments based on predefined slots and custom availability.
+- Access to patient interactions and historical data.
+
+<br>
 
 #### Report Page
-- Fetch Patient Report for the given patient ID and Doctor Access Key. (Key is be doctor id + First 2 letters from doctor name - all lowercase characters)
-- Able to download Patient Report in a pre-defined Template
+
+Features:
+- Fetch patient report using patient ID and doctor access key (constructed as: doctor id + first 2 letters of doctor's name in lowercase).
+- Download patient reports in a pre-defined template for record-keeping and analysis.
+
+<br>
   
 #### Appointment Page
-- Doctors are provided the privilage of offering the appointments on a predefined slots that are optional. apart from this doctor can also choose one custom slot based on their availability.
+
+Features:
+- Offer appointments in predefined time slots.
+- Option to set one custom slot based on the doctor's availability.
+- View and manage scheduled appointments.
 
 ------------------------------
