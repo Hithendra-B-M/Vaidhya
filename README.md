@@ -33,6 +33,14 @@
 
 Vaidhya is a mental healthcare assistance platform designed to facilitate secure and seamless interactions between patients and doctors. It offers a user-friendly environment where patients can access mental health support, book appointments, and receive personalized care, while doctors can manage patient reports and appointments efficiently. Vaidhya aims to enhance the overall mental health management experience through innovative and secure solutions.
 
+The Project Focuss on 6 Mental Abnormalities namely:
+- Depression
+- Anxiety Disorder
+- Schizophrenia
+- Bipolar Disorder
+- Obsessive-Compulsive Disorder (OCD)
+- Post-Traumatic Stress Disorder (PTSD)
+- 
 ------------------------
 
 ## Requirments
