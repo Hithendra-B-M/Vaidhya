@@ -31,7 +31,16 @@
 
 ------------------------
 
+Vaidhya is a mental healthcare assistance platform designed to facilitate secure and seamless interactions between patients and doctors. It offers a user-friendly environment where patients can access mental health support, book appointments, and receive personalized care, while doctors can manage patient reports and appointments efficiently. Vaidhya aims to enhance the overall mental health management experience through innovative and secure solutions.
 
+The Project Focuss on 6 Mental Abnormalities, namely:
+- Depression
+- Anxiety Disorder
+- Schizophrenia
+- Bipolar Disorder
+- Obsessive-Compulsive Disorder (OCD)
+- Post-Traumatic Stress Disorder (PTSD)
+  
 ------------------------
 
 ## Requirments
@@ -88,7 +97,7 @@ Use the Database Configuration File to Setup all the Collections with the name g
 
 <br>
 
-You can Access the Document [Here](Database_Configurations.pdf)
+You can Access the Document [Here](database_configuration.pdf)
 <br>
 Add your Mongo DB Connection String [Here](config.ini)
 
@@ -152,7 +161,12 @@ Add a Custom made FLASK APP SECRET KEY [Here](config.ini)
 
 -------------------------
 
-## Archetecture
+## Architecture
+
+![vaidhya_archetecture drawio](https://github.com/k-arthik-r/Vaidhya/assets/111432615/d000cdb0-e798-4e55-a464-86591686b673)
+
+You can find the Editable Archetecture Copy [Here](Architecture/vaidhya_architecture.drawio)
+
 
 -------------------------
 
@@ -276,7 +290,7 @@ Both Patients and Doctor would not have the direct authority to delete their acc
 ## Google Colab URL's
 
 ### Chatbot
-The ChatBot is a RAG Model used to answer user Query. you can access the  document Used to Answer User Question [Here](). 
+The ChatBot is a RAG Model used to answer user Query. you can access the  document Used to Answer User Question [Here](chatbot_document.pdf). 
 
 RAG Implementation:
 - Storage: Chroma DB
@@ -320,6 +334,7 @@ You can contact us for all the Colab File @ voidex.developer@gmail.com
   - password
   - email through which mails are needs to be sent.
   - App Password for the mentioned email
+- Each of the endpoint in the flask application is associated with an error code located at the first line of its function definition, which are showed in the Error 500 Page to locate which function is causing the applicarion to fail. The List of Endpoints and corresponding error codes can be located [Here](error_codes.xlsx)
   
 
 ----------------------------
