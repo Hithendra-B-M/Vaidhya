@@ -46,7 +46,7 @@ The Project Focuss on 6 Mental Abnormalities, namely:
 ## Requirments
 Python 3.9.13 (Recommended) 
 
-<a href="https://www.python.org/downloads](https://www.python.org/downloads/release/python-3913/" alt="python">
+<a href="https://www.python.org/downloads/release/python-3913/" alt="python">
         <img src="https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54" /></a>
 
 <br>
