@@ -298,18 +298,18 @@ RAG Implementation:
 - Generative Model: TheBloke/Llama-2-13B-Chat-GPTQ
 - Embedding Model: hkunlp/instructor-large
 - Retriever: RetrievalQA
-- Server: ngrok
+- connection: ngrok
 
 #### Multilingual System
 - Dataset: Samantara
 - Base Model: google/mt5
-- Server: ngrok
+- connection: ngrok
 
 #### Feeling Predictor
 - Model: mistralai/Mistral-7B-Instruct-v0.2
-- Server: ngrok
+- connection: ngrok
 
-You can contact us for all the Colab File @ voidex.developer@gmail.com
+You can contact us for all the colab files @ voidex.developer@gmail.com
 
 ------------------------------
 
